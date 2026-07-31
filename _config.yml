@@ -1,6 +1,25 @@
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
+
+# ===== 网站基本信息 =====
 title: 郑好的书房
 description: 写小说的人
-author: 郑好
+author:
+  name: 郑好
+  copyright: true   # 当此值为真时，页脚会显示版权信息
+
+# ===== 选择配色（皮肤） =====
+minimal_mistakes_skin: "air"   # 可选：air, contrast, dark, mint, sunrise 等
+
+# ===== 侧边栏作者信息 =====
+author_profile: true           # 显示作者简介
+
+# ===== 导航菜单 =====
+# 格式: "名称: /链接/"
+
+# ===== 必要插件 =====
 plugins:
   - jekyll-include-cache
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
