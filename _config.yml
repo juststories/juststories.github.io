@@ -1,20 +1,25 @@
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 
-# ===== 网站基本信息 =====
+# ===== 网站标题（只显示在顶部导航栏和浏览器标签页） =====
 title: 郑好的书房
+title_separator: "|"
+name: 郑好的书房
+
+# ===== 网站描述 =====
 description: 写小说的人
-author:
-  name: 郑好
-  copyright: true   # 当此值为真时，页脚会显示版权信息
+author: 郑好
 
-# ===== 选择配色（皮肤） =====
-minimal_mistakes_skin: "air"   # 可选：air, contrast, dark, mint, sunrise 等
+# ===== 配色皮肤 =====
+minimal_mistakes_skin: "air"
 
-# ===== 侧边栏作者信息 =====
-author_profile: true           # 显示作者简介
+# ===== 侧边栏 =====
+author_profile: true
 
-# ===== 导航菜单 =====
-# 格式: "名称: /链接/"
+# ===== 页脚版权信息（中文 + 英文） =====
+footer:
+  links:
+    - label: "© 2026 郑好。原创内容，未经授权禁止使用。Original content. Unauthorized use prohibited."
+      url: "#"
 
 # ===== 必要插件 =====
 plugins:
