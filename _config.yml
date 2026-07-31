@@ -1,0 +1,6 @@
+remote_theme: "mmistakes/minimal-mistakes@4.24.0"
+title: 郑好的书房
+description: 写小说的人
+author: 郑好
+plugins:
+  - jekyll-include-cache
