@@ -1,9 +1,9 @@
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 
 # ===== 网站标题（只显示在顶部导航栏和浏览器标签页） =====
-title: 郑好的书房
+title: nice stories
 title_separator: "|"
-name: 郑好的书房
+name: nice stories
 
 # ===== 网站描述 =====
 description: 写小说的人
