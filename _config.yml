@@ -17,9 +17,7 @@ author_profile: true
 
 # ===== 页脚版权信息（中文 + 英文） =====
 footer:
-  links:
-    - label: "© 2026 郑好。原创内容，未经授权禁止使用。Original content. Unauthorized use prohibited."
-      url: "#"
+  links:[]
 
 # ===== 必要插件 =====
 plugins:
