@@ -1,13 +1,24 @@
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 
 # ===== 网站标题（只显示在顶部导航栏和浏览器标签页） =====
-title: nice stories
+title: Just Stories
 title_separator: "|"
 name: nice stories
 
 # ===== 网站描述 =====
 description: 写小说的人
-author: 郑好
+
+# ===== 作者信息（侧边栏显示） =====
+author:
+  name: "郑好"
+  avatar: "/assets/avatars/avatar1.jpg"
+  bio: "六便士养活肉身，月亮安顿灵魂。"
+  location: "中国"
+  links:
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope"
+      url: "mailto:luna_just@qq.com"
+
 
 # ===== 配色皮肤 =====
 minimal_mistakes_skin: "air"
@@ -15,9 +26,9 @@ minimal_mistakes_skin: "air"
 # ===== 侧边栏 =====
 author_profile: true
 
-# ===== 页脚版权信息（中文 + 英文） =====
+# ===== 页脚 =====
 footer:
-  links:[]
+  links: []
 
 # ===== 必要插件 =====
 plugins:
