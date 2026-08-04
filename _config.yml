@@ -19,7 +19,6 @@ author:
       icon: "fas fa-fw fa-envelope"
       url: "mailto:luna_just@qq.com"
 
-
 # ===== 配色皮肤 =====
 minimal_mistakes_skin: "air"
 
@@ -37,6 +36,15 @@ plugins:
   - jekyll-sitemap
   - jekyll-gist
   - jekyll-feed
+
+# ===== 导航菜单 =====
+main:
+  - title: "首页"
+    url: /
+  - title: "关于"
+    url: /about/
+  - title: "留言板"
+    url: /guestbook/
 
 # ===== 留言板 ======  
 comments:
