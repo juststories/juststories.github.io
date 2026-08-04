@@ -89,6 +89,98 @@ layout: default
 </div>
 {% endif %}
 
+我突然想起来了，那个“复制成功”的按钮可不可以不需要点 OK，它闪现 1 秒钟就自己退出、淡化了？
+---
+layout: default
+---
+
+<article class="page">
+  <header>
+    <style>
+      /* 文章标题居中，向下移动 */
+      .page__title {
+        text-align: center !important;
+        margin-top: 2rem !important;
+        margin-bottom: 1.5rem !important;
+      }
+
+      /* 正文样式：与评论框同宽 */
+      .page__content {
+        font-size: 1.2rem;
+        line-height: 2;
+        max-width: 100%;
+        margin: 0 auto;
+        color: #1a1a1a;
+      }
+
+      .page__content p {
+        margin-bottom: 1.8em;
+        text-indent: 2em;
+      }
+
+      /* 分享按钮样式 */
+      .share {
+        display: flex;
+        gap: 0.8rem;
+        justify-content: center;
+        margin: 2.5rem 0 1.5rem 0;
+        flex-wrap: wrap;
+      }
+
+      .share a {
+        padding: 0.4rem 1.2rem;
+        color: #fff;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: opacity 0.2s;
+      }
+
+      .share a:hover {
+        opacity: 0.8;
+      }
+
+      .share .twitter {
+        background: #1DA1F2;
+      }
+
+      .share .facebook {
+        background: #1877F2;
+      }
+
+      .share .linkedin {
+        background: #0A66C2;
+      }
+
+      .share .weibo {
+        background: #E6162D;
+      }
+
+      /* 【新增】复制链接的蓝色背景 */
+      .share .copy-link-btn {
+        background: #0066cc; 
+      }
+    </style>
+    <h1 class="page__title">{{ page.title }}</h1>
+    <p class="page__meta">发布于 {{ page.date | date: "%Y-%m-%d" }}</p>
+  </header>
+
+  <div class="page__content">
+    {{ content }}
+  </div>
+
+  <!-- 社交分享按钮 -->
+{% if page.share != false %}
+<div class="share">
+  <a href="https://service.weibo.com/share/share.php?title={{ page.title | url_encode }}&url={{ site.url }}{{ page.url }}" target="_blank" rel="noopener noreferrer" class="weibo">
+    微博分享
+  </a>
+  <a href="#" class="copy-link-btn" onclick="copyLink(); return false;">
+    复制链接
+  </a>
+</div>
+{% endif %}
+
 <!-- 【新增】实现复制和提示功能的 JavaScript -->
 <script>
 function copyLink() {
