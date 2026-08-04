@@ -12,9 +12,8 @@ description: 六便士养活肉身，月亮安顿灵魂
 author:
   name: "郑好"
   avatar: "/assets/avatars/avatar1.jpg"
-  bio: "你来看此花时，则此花颜色一时明白起来。<br>📧 <a href='mailto:luna_just@qq.com'>luna_just@qq.com</a>"
+  bio: "你来看此花时，则此花颜色一时明白起来。<br><i class='fas fa-fw fa-envelope' onclick=\"window.location.href='mailto:luna_just@qq.com'\"></i>"
   location: "中国"
-  links: []
 
 # ===== 配色皮肤 =====
 minimal_mistakes_skin: "air"
