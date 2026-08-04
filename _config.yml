@@ -1,6 +1,6 @@
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 
-# ===== 网站标题（只显示在顶部导航栏和浏览器标签页） =====
+# ===== 网站标题 =====
 title: Just Stories
 title_separator: "|"
 name: Just Stories
@@ -8,12 +8,16 @@ name: Just Stories
 # ===== 网站描述 =====
 description: 六便士养活肉身，月亮安顿灵魂
 
-# ===== 作者信息（侧边栏显示） =====
+# ===== 作者信息 =====
 author:
   name: "郑好"
   avatar: "/assets/avatars/avatar1.jpg"
-  bio: "你来看此花时，则此花颜色一时明白起来。<br><i class='fas fa-fw fa-envelope' onclick=\"window.location.href='mailto:luna_just@qq.com'\"></i>"
+  bio: "你来看此花时，则此花颜色一时明白起来。"
   location: "中国"
+  links:
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope"
+      url: "mailto:luna_just@qq.com"
 
 # ===== 配色皮肤 =====
 minimal_mistakes_skin: "air"
@@ -33,7 +37,7 @@ plugins:
   - jekyll-gist
   - jekyll-feed
 
-# ===== 留言板 ======  
+# ===== 评论系统 =====
 comments:
   provider: "giscus"
   giscus:
@@ -45,7 +49,7 @@ comments:
     theme: "preferred_color_scheme"
     lang: "zh-CN"
 
-# ===== 全局开启文章评论区 =====
+# ===== 全局默认配置 =====
 defaults:
   - scope:
       path: ""
@@ -54,7 +58,3 @@ defaults:
       layout: single
       author_profile: true
       comments: true
-
-# ===== 自定义样式 =====
-sass:
-  sass_dir: _sass
