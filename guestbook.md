@@ -4,5 +4,3 @@ permalink: /guestbook/
 layout: single
 comments: true
 ---
-
-你在，就好。
