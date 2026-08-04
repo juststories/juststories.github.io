@@ -63,8 +63,10 @@ defaults:
 webmaster:
   head: |
     <style>
-      /* 去掉文章列表标题的下划线 */
-      .archive__item a {
+      .archive__item-title a {
         text-decoration: none !important;
+      }
+      .archive__item-title a:hover {
+        text-decoration: underline !important;
       }
     </style>
