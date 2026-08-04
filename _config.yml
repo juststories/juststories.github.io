@@ -58,8 +58,8 @@ defaults:
       layout: single
       author_profile: true
       comments: true
-
-# ===== 窄屏显示 Contact 按钮（替换 Follow 文字） =====
+      
+# ===== 窄屏显示 Contact 按钮 + 手机字体稍微调大 =====
 webmaster:
   head: |
     <style>
@@ -67,6 +67,23 @@ webmaster:
       @media (max-width: 768px) {
         .author__follow {
           display: block !important;
+        }
+
+        /* 手机端字体稍微调大一点点 */
+        body {
+          font-size: 17px !important;
+        }
+        .page__content {
+          font-size: 17px !important;
+        }
+        .page__title {
+          font-size: 22px !important;
+        }
+        .sidebar {
+          font-size: 15px !important;
+        }
+        .archive__item-title {
+          font-size: 17px !important;
         }
       }
 
