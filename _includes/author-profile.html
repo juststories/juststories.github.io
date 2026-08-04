@@ -7,6 +7,18 @@
 </div>
 
 <div class="author__urls">
+  <!-- 桌面端显示默认邮箱（来自 _config.yml 的 links） -->
+  {% if site.author.links %}
+    <div class="author__links">
+      {% for link in site.author.links %}
+        <a href="{{ link.url }}" class="btn btn--primary btn--small">
+          <i class="{{ link.icon }}"></i>
+        </a>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- 窄屏显示 Contact 按钮（带文字） -->
   <div class="author__follow">
     <a href="mailto:luna_just@qq.com" class="btn btn--primary btn--small">
       <i class="fas fa-fw fa-envelope"></i> Contact
