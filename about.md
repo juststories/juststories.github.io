@@ -8,16 +8,10 @@ share: false
 comments: false
 ---
 
-
+<style>
+  .page__title {
+    display: none !important;
+  }
+</style>
 
 我叫郑好，写故事的。
-
-你可能听说过我，可能没有。
-
-但重要的是，你正在读我的文字。
-
-欢迎你来。
-
-或者只读这一篇，也好。
-
-我们也许不会再见。
