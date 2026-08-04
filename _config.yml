@@ -58,3 +58,7 @@ defaults:
       layout: single
       author_profile: true
       comments: true
+
+# ===== 自定义样式 =====
+sass:
+  sass_dir: _sass
