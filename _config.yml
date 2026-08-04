@@ -13,7 +13,6 @@ author:
   name: "郑好"
   avatar: "/assets/avatars/avatar1.jpg"
   bio: "你来看此花时，则此花颜色一时明白起来。"
-  location: "中国"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope"
