@@ -37,15 +37,6 @@ plugins:
   - jekyll-gist
   - jekyll-feed
 
-# ===== 导航菜单 =====
-main:
-  - title: "首页"
-    url: /
-  - title: "关于"
-    url: /about/
-  - title: "留言板"
-    url: /guestbook/
-
 # ===== 留言板 ======  
 comments:
   provider: "giscus"
