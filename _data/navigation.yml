@@ -1,7 +1,7 @@
 main:
   - title: "首页"
     url: /
-  - title: "关于"
-    url: /about/
+#  - title: "关于"
+#    url: /about/
   - title: "留言板"
     url: /guestbook/
