@@ -1,11 +1,14 @@
 <div class="author__content">
+  <a href="{{ site.url }}/" class="author__avatar">
+    <img src="{{ site.author.avatar | relative_url }}" alt="{{ site.author.name }}">
+  </a>
   <h3 class="author__name">{{ site.author.name }}</h3>
   <p class="author__bio">{{ site.author.bio }}</p>
 </div>
 
 <div class="author__urls">
   <div class="author__follow">
-    <a href="#" class="btn btn--primary btn--small">
+    <a href="mailto:luna_just@qq.com" class="btn btn--primary btn--small">
       <i class="fas fa-fw fa-envelope"></i> Contact
     </a>
   </div>
