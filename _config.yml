@@ -49,9 +49,10 @@ comments:
     theme: "preferred_color_scheme"
     lang: "zh-CN"
 
-# ===== 全局开启评论区 =====
+# ===== 全局开启文章评论区 =====
 defaults:
   - scope:
       path: ""
+      type: posts
     values:
       comments: true
