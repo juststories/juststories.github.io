@@ -12,12 +12,9 @@ description: 六便士养活肉身，月亮安顿灵魂
 author:
   name: "郑好"
   avatar: "/assets/avatars/avatar1.jpg"
-  bio: "你来看此花时，则此花颜色一时明白起来。"
+  bio: "你来看此花时，则此花颜色一时明白起来。<br>📧 <a href='mailto:luna_just@qq.com'>luna_just@qq.com</a>"
   location: "中国"
-  links:
-    - label: "Email"
-      icon: "fas fa-fw fa-envelope"
-      url: "mailto:luna_just@qq.com"
+  links: []
 
 # ===== 配色皮肤 =====
 minimal_mistakes_skin: "air"
@@ -62,119 +59,3 @@ defaults:
 # ===== 自定义样式 =====
 sass:
   sass_dir: _sass
-
-# ===== 桌面固定宽度 + 手机自适应 =====
-webmaster:
-  head: |
-    <style>
-      /* ===== 桌面端（宽度 > 768px）：固定宽度，滚动条 ===== */
-      @media (min-width: 769px) {
-        html, body {
-          min-width: 1200px !important;
-          width: 1200px !important;
-          margin: 0 auto !important;
-          overflow-x: auto !important;
-        }
-
-        .page,
-        .page__inner-wrap,
-        .archive,
-        .sidebar,
-        .page__content,
-        .author-card,
-        .wrapper,
-        .main,
-        .inner-wrap {
-          min-width: 1100px !important;
-          width: 1100px !important;
-          max-width: none !important;
-          padding-left: 2rem !important;
-          padding-right: 2rem !important;
-          margin-left: auto !important;
-          margin-right: auto !important;
-          box-sizing: border-box !important;
-        }
-
-        .author-card {
-          flex-direction: row !important;
-        }
-
-        .greedy-nav__toggle {
-          display: none !important;
-        }
-
-        ::-webkit-scrollbar {
-          width: 12px;
-          height: 12px;
-        }
-        ::-webkit-scrollbar-track {
-          background: #f0f0f0;
-        }
-        ::-webkit-scrollbar-thumb {
-          background: #ccc;
-          border-radius: 6px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-          background: #aaa;
-        }
-      }
-
-# ===== 桌面固定宽度（强制整体不变） =====
-webmaster:
-  head: |
-    <style>
-      /* 锁定整个页面容器 */
-      .main {
-        min-width: 1100px !important;
-        width: 1100px !important;
-        margin: 0 auto !important;
-        overflow-x: auto !important;
-        display: block !important;
-      }
-
-      /* 锁定 body */
-      body {
-        min-width: 1100px !important;
-        width: 1100px !important;
-        margin: 0 auto !important;
-        overflow-x: auto !important;
-      }
-
-      /* 侧边栏和正文各占固定比例，不浮动 */
-      .sidebar {
-        float: left !important;
-        width: 250px !important;
-        margin-right: 30px !important;
-      }
-
-      .page__inner-wrap {
-        float: left !important;
-        width: 820px !important;
-      }
-
-      /* 清除浮动，防止溢出 */
-      .main__inner-wrap {
-        overflow: hidden !important;
-      }
-
-      /* 禁用响应式菜单 */
-      .greedy-nav__toggle {
-        display: none !important;
-      }
-
-      /* 滚动条样式 */
-      ::-webkit-scrollbar {
-        width: 12px;
-        height: 12px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #f0f0f0;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #ccc;
-        border-radius: 6px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #aaa;
-      }
-    </style>
