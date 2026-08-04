@@ -53,6 +53,6 @@ comments:
 # ===== 全局开启评论区 =====
 defaults:
   - scope:
-      path: ""
-    values:
-      comments: true
+    path: ""
+  - values:
+    comments: true
