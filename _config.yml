@@ -58,3 +58,13 @@ defaults:
       layout: single
       author_profile: true
       comments: true
+
+# ===== 自定义样式 =====
+webmaster:
+  head: |
+    <style>
+      /* 去掉文章列表标题的下划线 */
+      .archive__item a {
+        text-decoration: none !important;
+      }
+    </style>
