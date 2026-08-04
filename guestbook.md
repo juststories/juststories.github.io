@@ -6,6 +6,8 @@ author_profile: true
 comments: true
 ---
 
+💡 如果评论区或输入框没有出现，多刷新几次页面就好了
+
 <script src="https://giscus.app/client.js"
         data-repo="juststories/juststories.github.io"
         data-repo-id="R_kgDOTpbEhw"
