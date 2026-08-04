@@ -73,29 +73,13 @@ layout: default
   </div>
 
   <!-- 社交分享按钮 -->
-  {% if page.share != false %}
-  <div class="share">
-    <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ site.url }}{{ page.url }}" target="_blank" rel="noopener noreferrer" class="twitter">Twitter</a>
-    <a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ page.url }}" target="_blank" rel="noopener noreferrer" class="facebook">Facebook</a>
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ page.url }}" target="_blank" rel="noopener noreferrer" class="linkedin">LinkedIn</a>
-    <a href="https://service.weibo.com/share/share.php?title={{ page.title | url_encode }}&url={{ site.url }}{{ page.url }}" target="_blank" rel="noopener noreferrer" class="weibo">微博</a>
-  </div>
-  {% endif %}
-
-  <!-- Giscus 评论区 -->
-  <script src="https://giscus.app/client.js"
-          data-repo="juststories/juststories.github.io"
-          data-repo-id="R_kgDOTpbEhw"
-          data-category="General"
-          data-category-id="DIC_kwDOTpbEh84DCnXx"
-          data-mapping="pathname"
-          data-strict="0"
-          data-reactions-enabled="1"
-          data-emit-metadata="0"
-          data-input-position="bottom"
-          data-theme="preferred_color_scheme"
-          data-lang="zh-CN"
-          crossorigin="anonymous"
-          async>
-  </script>
-</article>
+{% if page.share != false %}
+<div class="share">
+  <a href="https://service.weibo.com/share/share.php?title={{ page.title | url_encode }}&url={{ site.url }}{{ page.url }}" target="_blank" rel="noopener noreferrer" class="weibo">
+    <span>📱</span> 微博
+  </a>
+  <a href="#" class="copy-link" onclick="copyLink()">
+    <span>📋</span> 复制链接
+  </a>
+</div>
+{% endif %}
