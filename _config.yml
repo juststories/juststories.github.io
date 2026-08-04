@@ -49,3 +49,10 @@ comments:
     reactions_enabled: "1"
     theme: "preferred_color_scheme"
     lang: "zh-CN"
+
+# ===== 全局开启评论区 =====
+defaults:
+  - scope:
+      path: ""
+    values:
+      comments: true
