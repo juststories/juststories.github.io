@@ -15,10 +15,11 @@
   text-indent: 2em;
 }
 
-// 文章标题
+// 文章标题（居中，向下移动）
 .page__title {
-  text-align: left;
+  text-align: center;
   font-size: 2rem;
   font-weight: 600;
+  margin-top: 2rem;
   margin-bottom: 1.5rem;
 }
