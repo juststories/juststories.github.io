@@ -3,7 +3,7 @@ remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 # ===== 网站标题（只显示在顶部导航栏和浏览器标签页） =====
 title: Just Stories
 title_separator: "|"
-name: nice stories
+name: Just Stories
 
 # ===== 网站描述 =====
 description: 写小说的人
@@ -37,3 +37,15 @@ plugins:
   - jekyll-sitemap
   - jekyll-gist
   - jekyll-feed
+
+# ===== 留言板 ======  
+comments:
+  provider: "giscus"
+  giscus:
+    repo_id: "R_kgDOTpbEhw"
+    category_name: "General"
+    category_id: "DIC_kwDOTpbEh84DCnXx"
+    discussion_term: "pathname"
+    reactions_enabled: "1"
+    theme: "preferred_color_scheme"
+    lang: "zh-CN"
