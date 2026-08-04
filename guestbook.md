@@ -7,7 +7,7 @@ comments: true
 ---
 
 <p style="font-size: 14px; color: #888; margin-top: 4px;">
-  💡 如果评论区或输入框没有出现，多刷新几次页面就好了 ^_^
+  💡 如果评论区或输入框没有出现，多刷新几次页面就好了 
 </p>
 
 <script src="https://giscus.app/client.js"
