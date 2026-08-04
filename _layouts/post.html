@@ -81,10 +81,36 @@ layout: default
 {% if page.share != false %}
 <div class="share">
   <a href="https://service.weibo.com/share/share.php?title={{ page.title | url_encode }}&url={{ site.url }}{{ page.url }}" target="_blank" rel="noopener noreferrer" class="weibo">
-    微博
+    微博分享
   </a>
-  <a href="#" class="copy-link-btn" onclick="copyLink()">
+  <a href="#" class="copy-link-btn" onclick="copyLink(); return false;">
     复制链接
   </a>
 </div>
 {% endif %}
+
+<!-- 【新增】实现复制和提示功能的 JavaScript -->
+<script>
+function copyLink() {
+  // 1. 获取当前页面的完整链接
+  var url = window.location.href;
+
+  // 2. 创建一个临时的输入框用来存放链接
+  var tempInput = document.createElement("input");
+  tempInput.value = url;
+  document.body.appendChild(tempInput);
+
+  // 3. 选中输入框的内容并执行复制命令
+  tempInput.select();
+  tempInput.setSelectionRange(0, 99999); // 兼容移动端
+  document.execCommand("copy");
+
+  // 4. 移除临时输入框
+  document.body.removeChild(tempInput);
+
+  // 5. 弹出“复制成功”的提示
+  alert("🎉 复制成功！快去分享给朋友吧！");
+}
+</script>
+
+</article>
