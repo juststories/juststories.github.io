@@ -62,3 +62,117 @@ defaults:
 # ===== 自定义样式 =====
 sass:
   sass_dir: _sass
+
+# ===== 手机端布局修复（仅针对窄屏，不限制宽度） =====
+webmaster:
+  head: |
+    <style>
+      /* ===== 手机端适配（屏幕宽度小于 768px） ===== */
+      @media (max-width: 768px) {
+        /* 页面整体内边距，防止内容贴边 */
+        .page {
+          padding-left: 1rem !important;
+          padding-right: 1rem !important;
+        }
+
+        /* 文章正文 */
+        .page__content {
+          font-size: 1rem !important;
+          padding: 0 !important;
+        }
+
+        /* 文章标题 */
+        .page__title {
+          font-size: 1.6rem !important;
+          margin-top: 1.5rem !important;
+          margin-bottom: 0.5rem !important;
+        }
+
+        /* 日期 */
+        .page__meta {
+          font-size: 0.8rem !important;
+        }
+
+        /* 侧边栏（头像区域）在手机上居中显示 */
+        .sidebar {
+          text-align: center !important;
+          padding: 0 0.5rem !important;
+        }
+
+        .sidebar .author__avatar img {
+          width: 80px !important;
+          height: 80px !important;
+          margin: 0 auto !important;
+        }
+
+        .sidebar .author__name {
+          font-size: 1.1rem !important;
+        }
+
+        .sidebar .author__bio {
+          font-size: 0.9rem !important;
+        }
+
+        /* 文章列表在手机上 */
+        .archive__item {
+          padding: 0.5rem 0 !important;
+        }
+
+        .archive__item-title {
+          font-size: 1.05rem !important;
+        }
+
+        /* 作者卡片在手机上居中并堆叠 */
+        .author-card {
+          flex-direction: column !important;
+          text-align: center !important;
+          margin: 2rem 0.5rem !important;
+          padding: 1.2rem !important;
+        }
+
+        .author-card img {
+          width: 56px !important;
+          height: 56px !important;
+        }
+
+        .author-card .name {
+          font-size: 1rem !important;
+        }
+
+        .author-card .bio {
+          font-size: 0.85rem !important;
+        }
+
+        .author-card .email {
+          font-size: 0.8rem !important;
+        }
+
+        /* 首页题记 */
+        .page__content p:first-of-type {
+          font-size: 1.05rem !important;
+        }
+
+        /* 留言板适配 */
+        .guestbook-content {
+          padding: 0 0.5rem !important;
+        }
+
+        /* 评论区 */
+        .giscus-wrapper {
+          padding: 0 0.5rem !important;
+        }
+      }
+
+      /* 平板适配（768px - 1024px） */
+      @media (min-width: 769px) and (max-width: 1024px) {
+        .page {
+          padding-left: 1.5rem !important;
+          padding-right: 1.5rem !important;
+        }
+
+        .sidebar .author__avatar img {
+          width: 90px !important;
+          height: 90px !important;
+        }
+      }
+    </style>
