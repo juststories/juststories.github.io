@@ -63,116 +63,112 @@ defaults:
 sass:
   sass_dir: _sass
 
-# ===== 手机端布局修复（仅针对窄屏，不限制宽度） =====
+# ===== 桌面固定宽度 + 手机自适应 =====
 webmaster:
   head: |
     <style>
-      /* ===== 手机端适配（屏幕宽度小于 768px） ===== */
-      @media (max-width: 768px) {
-        /* 页面整体内边距，防止内容贴边 */
-        .page {
-          padding-left: 1rem !important;
-          padding-right: 1rem !important;
-        }
-
-        /* 文章正文 */
-        .page__content {
-          font-size: 1rem !important;
-          padding: 0 !important;
-        }
-
-        /* 文章标题 */
-        .page__title {
-          font-size: 1.6rem !important;
-          margin-top: 1.5rem !important;
-          margin-bottom: 0.5rem !important;
-        }
-
-        /* 日期 */
-        .page__meta {
-          font-size: 0.8rem !important;
-        }
-
-        /* 侧边栏（头像区域）在手机上居中显示 */
-        .sidebar {
-          text-align: center !important;
-          padding: 0 0.5rem !important;
-        }
-
-        .sidebar .author__avatar img {
-          width: 80px !important;
-          height: 80px !important;
+      /* ===== 桌面端（宽度 > 768px）：固定宽度，滚动条 ===== */
+      @media (min-width: 769px) {
+        html, body {
+          min-width: 1200px !important;
+          width: 1200px !important;
           margin: 0 auto !important;
+          overflow-x: auto !important;
         }
 
-        .sidebar .author__name {
-          font-size: 1.1rem !important;
+        .page,
+        .page__inner-wrap,
+        .archive,
+        .sidebar,
+        .page__content,
+        .author-card,
+        .wrapper,
+        .main,
+        .inner-wrap {
+          min-width: 1100px !important;
+          width: 1100px !important;
+          max-width: none !important;
+          padding-left: 2rem !important;
+          padding-right: 2rem !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          box-sizing: border-box !important;
         }
 
-        .sidebar .author__bio {
-          font-size: 0.9rem !important;
-        }
-
-        /* 文章列表在手机上 */
-        .archive__item {
-          padding: 0.5rem 0 !important;
-        }
-
-        .archive__item-title {
-          font-size: 1.05rem !important;
-        }
-
-        /* 作者卡片在手机上居中并堆叠 */
         .author-card {
-          flex-direction: column !important;
-          text-align: center !important;
-          margin: 2rem 0.5rem !important;
-          padding: 1.2rem !important;
+          flex-direction: row !important;
         }
 
-        .author-card img {
-          width: 56px !important;
-          height: 56px !important;
+        .greedy-nav__toggle {
+          display: none !important;
         }
 
-        .author-card .name {
-          font-size: 1rem !important;
+        ::-webkit-scrollbar {
+          width: 12px;
+          height: 12px;
         }
-
-        .author-card .bio {
-          font-size: 0.85rem !important;
+        ::-webkit-scrollbar-track {
+          background: #f0f0f0;
         }
-
-        .author-card .email {
-          font-size: 0.8rem !important;
+        ::-webkit-scrollbar-thumb {
+          background: #ccc;
+          border-radius: 6px;
         }
-
-        /* 首页题记 */
-        .page__content p:first-of-type {
-          font-size: 1.05rem !important;
-        }
-
-        /* 留言板适配 */
-        .guestbook-content {
-          padding: 0 0.5rem !important;
-        }
-
-        /* 评论区 */
-        .giscus-wrapper {
-          padding: 0 0.5rem !important;
+        ::-webkit-scrollbar-thumb:hover {
+          background: #aaa;
         }
       }
 
-      /* 平板适配（768px - 1024px） */
-      @media (min-width: 769px) and (max-width: 1024px) {
-        .page {
-          padding-left: 1.5rem !important;
-          padding-right: 1.5rem !important;
-        }
+# ===== 桌面固定宽度 =====
+webmaster:
+  head: |
+    <style>
+      body {
+        min-width: 1200px !important;
+        width: 1200px !important;
+        margin: 0 auto !important;
+        overflow-x: auto !important;
+      }
 
-        .sidebar .author__avatar img {
-          width: 90px !important;
-          height: 90px !important;
-        }
+      .page,
+      .page__inner-wrap,
+      .archive,
+      .sidebar,
+      .page__content,
+      .author-card,
+      .wrapper,
+      .main,
+      .inner-wrap {
+        min-width: 1100px !important;
+        width: 1100px !important;
+        max-width: none !important;
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box !important;
+      }
+
+      .author-card {
+        flex-direction: row !important;
+      }
+
+      .greedy-nav__toggle {
+        display: none !important;
+      }
+
+      ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f0f0f0;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 6px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #aaa;
       }
     </style>
