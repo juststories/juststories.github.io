@@ -1,0 +1,24 @@
+// ===== 文章页样式 =====
+
+// 正文区域
+.page__content {
+  font-size: 1.2rem;
+  line-height: 2;
+  max-width: 720px;
+  margin: 0 auto;
+  color: #1a1a1a;
+}
+
+// 段落
+.page__content p {
+  margin-bottom: 1.8em;
+  text-indent: 2em;
+}
+
+// 文章标题
+.page__title {
+  text-align: left;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
