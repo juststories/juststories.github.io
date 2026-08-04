@@ -58,15 +58,3 @@ defaults:
       layout: single
       author_profile: true
       comments: true
-
-# ===== 自定义样式 =====
-webmaster:
-  head: |
-    <style>
-      .archive__item-title a {
-        text-decoration: none !important;
-      }
-      .archive__item-title a:hover {
-        text-decoration: underline !important;
-      }
-    </style>
