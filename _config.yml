@@ -55,4 +55,5 @@ defaults:
       path: ""
       type: posts
     values:
-      comments: true
+      layout: single
+      author_profile: true
