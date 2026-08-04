@@ -63,6 +63,11 @@ layout: default
       .share .weibo {
         background: #E6162D;
       }
+
+      /* 【新增】复制链接的蓝色背景 */
+      .share .copy-link-btn {
+        background: #0066cc; 
+      }
     </style>
     <h1 class="page__title">{{ page.title }}</h1>
     <p class="page__meta">发布于 {{ page.date | date: "%Y-%m-%d" }}</p>
@@ -76,10 +81,10 @@ layout: default
 {% if page.share != false %}
 <div class="share">
   <a href="https://service.weibo.com/share/share.php?title={{ page.title | url_encode }}&url={{ site.url }}{{ page.url }}" target="_blank" rel="noopener noreferrer" class="weibo">
-    <span>📱</span> 微博
+    微博
   </a>
-  <a href="#" class="copy-link" onclick="copyLink()">
-    <span>📋</span> 复制链接
+  <a href="#" class="copy-link-btn" onclick="copyLink()">
+    复制链接
   </a>
 </div>
 {% endif %}
