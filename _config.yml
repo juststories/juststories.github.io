@@ -119,44 +119,50 @@ webmaster:
         }
       }
 
-# ===== 桌面固定宽度 =====
+# ===== 桌面固定宽度（强制整体不变） =====
 webmaster:
   head: |
     <style>
+      /* 锁定整个页面容器 */
+      .main {
+        min-width: 1100px !important;
+        width: 1100px !important;
+        margin: 0 auto !important;
+        overflow-x: auto !important;
+        display: block !important;
+      }
+
+      /* 锁定 body */
       body {
-        min-width: 1200px !important;
-        width: 1200px !important;
+        min-width: 1100px !important;
+        width: 1100px !important;
         margin: 0 auto !important;
         overflow-x: auto !important;
       }
 
-      .page,
-      .page__inner-wrap,
-      .archive,
-      .sidebar,
-      .page__content,
-      .author-card,
-      .wrapper,
-      .main,
-      .inner-wrap {
-        min-width: 1100px !important;
-        width: 1100px !important;
-        max-width: none !important;
-        padding-left: 2rem !important;
-        padding-right: 2rem !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        box-sizing: border-box !important;
+      /* 侧边栏和正文各占固定比例，不浮动 */
+      .sidebar {
+        float: left !important;
+        width: 250px !important;
+        margin-right: 30px !important;
       }
 
-      .author-card {
-        flex-direction: row !important;
+      .page__inner-wrap {
+        float: left !important;
+        width: 820px !important;
       }
 
+      /* 清除浮动，防止溢出 */
+      .main__inner-wrap {
+        overflow: hidden !important;
+      }
+
+      /* 禁用响应式菜单 */
       .greedy-nav__toggle {
         display: none !important;
       }
 
+      /* 滚动条样式 */
       ::-webkit-scrollbar {
         width: 12px;
         height: 12px;
