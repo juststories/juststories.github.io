@@ -1,5 +1,5 @@
 ---
-title: "About 关于作者"
+title: "关于作者"
 permalink: /about/
 layout: single
 author_profile: true
