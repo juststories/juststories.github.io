@@ -1,5 +1,5 @@
 ---
-title: "Guestbook 留言板"
+title: "留言板"
 permalink: /guestbook/
 layout: single
 author_profile: true
