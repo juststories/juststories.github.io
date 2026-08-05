@@ -1,1 +1,5 @@
-recent_posts: "最新作品"
+en:
+  recent_posts: "最近更新"
+
+zh-CN:
+  recent_posts: "最近更新"
