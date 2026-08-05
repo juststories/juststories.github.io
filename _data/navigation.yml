@@ -3,7 +3,7 @@ main:
     url: /
   - title: "关于作者"
     url: /about/
-  - title: "作品"
+  - title: "我的作品"
     url: /list/
   - title: "留言板"
     url: /guestbook/
