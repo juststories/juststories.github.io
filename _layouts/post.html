@@ -55,26 +55,87 @@ layout: default
       .share .copy-link-btn {
         background: #0066cc;
       }
+
+      /* 文章元信息块样式 */
+      .meta-block {
+        margin-top: 2rem;
+        padding: 1rem 1.2rem;
+        border: 1px solid #e8e6e1;
+        border-radius: 8px;
+        background: #fafafa;
+        font-size: 0.85rem;
+        color: #666;
+        line-height: 1.8;
+      }
+
+      .meta-block p {
+        margin: 0.2rem 0;
+      }
+
+      .meta-block .icon {
+        margin-right: 0.5rem;
+        color: #aaa;
+      }
+
+      .meta-block .tag-item {
+        display: inline-block;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 0.05rem 0.6rem;
+        margin-right: 0.3rem;
+        background: #fff;
+        font-size: 0.8rem;
+        color: #888;
+      }
+
+      .meta-block .tag-item:hover {
+        border-color: #bbb;
+        background: #f5f5f5;
+      }
+
+      .meta-block .divider {
+        margin: 0.3rem 0;
+        border: none;
+        border-top: 1px dashed #e0ddd8;
+      }
     </style>
     <h1 class="page__title">{{ page.title }}</h1>
-  <!-- <p class="page__meta">发布于 {{ page.date | date: "%Y-%m-%d" }}</p> -->
+    <!-- <p class="page__meta">发布于 {{ page.date | date: "%Y-%m-%d" }}</p> -->
   </header>
 
   <div class="page__content">
     {{ content }}
   </div>
 
-  <!-- ===== 文章元信息：分类 / 标签 / 更新时间 ===== -->
+  <!-- ===== 文章元信息块：分类 / 标签 / 更新时间 ===== -->
   {% if page.categories or page.tags or page.last_modified_at %}
-  <div style="margin-top: 2rem; font-size: 0.85rem; color: #999; border-top: 1px solid #e8e6e1; padding-top: 1rem;">
+  <div class="meta-block">
     {% if page.categories %}
-      <p style="margin: 0.2rem 0;">分类: {{ page.categories | join: " · " }}</p>
+      <p><span class="icon">📂</span>分类：
+        {% for category in page.categories %}
+          <span class="tag-item">{{ category }}</span>
+        {% endfor %}
+      </p>
     {% endif %}
+
+    {% if page.categories and page.tags %}
+      <hr class="divider">
+    {% endif %}
+
     {% if page.tags %}
-      <p style="margin: 0.2rem 0;">标签: {{ page.tags | join: " · " }}</p>
+      <p><span class="icon">🏷️</span>标签：
+        {% for tag in page.tags %}
+          <span class="tag-item">{{ tag }}</span>
+        {% endfor %}
+      </p>
     {% endif %}
+
+    {% if page.tags and page.last_modified_at %}
+      <hr class="divider">
+    {% endif %}
+
     {% if page.last_modified_at %}
-      <p style="margin: 0.2rem 0;">更新时间: {{ page.last_modified_at | date: "%Y年%m月%d日" }}</p>
+      <p><span class="icon">🕒</span>更新时间：{{ page.last_modified_at | date: "%Y年%m月%d日" }}</p>
     {% endif %}
   </div>
   {% endif %}
