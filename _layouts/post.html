@@ -48,25 +48,12 @@ layout: default
         opacity: 0.8;
       }
 
-      .share .twitter {
-        background: #1DA1F2;
-      }
-
-      .share .facebook {
-        background: #1877F2;
-      }
-
-      .share .linkedin {
-        background: #0A66C2;
-      }
-
       .share .weibo {
         background: #E6162D;
       }
 
-      /* 【新增】复制链接的蓝色背景 */
       .share .copy-link-btn {
-        background: #0066cc; 
+        background: #0066cc;
       }
     </style>
     <h1 class="page__title">{{ page.title }}</h1>
@@ -77,72 +64,91 @@ layout: default
     {{ content }}
   </div>
 
-  <!-- 社交分享按钮 -->
-{% if page.share != false %}
-<div class="share">
-  <a href="https://service.weibo.com/share/share.php?title={{ page.title | url_encode }}&url={{ site.url }}{{ page.url }}" target="_blank" rel="noopener noreferrer" class="weibo">
-    微博分享
-  </a>
-  <a href="#" class="copy-link-btn" onclick="copyLink(); return false;">
-    复制链接
-  </a>
-</div>
-{% endif %}
+  <!-- ===== 文章元信息：分类 / 标签 / 更新时间 ===== -->
+  {% if page.categories or page.tags or page.last_modified_at %}
+  <div style="margin-top: 2rem; font-size: 0.85rem; color: #999; border-top: 1px solid #e8e6e1; padding-top: 1rem;">
+    {% if page.categories %}
+      <p style="margin: 0.2rem 0;">分类: {{ page.categories | join: " · " }}</p>
+    {% endif %}
+    {% if page.tags %}
+      <p style="margin: 0.2rem 0;">标签: {{ page.tags | join: " · " }}</p>
+    {% endif %}
+    {% if page.last_modified_at %}
+      <p style="margin: 0.2rem 0;">更新时间: {{ page.last_modified_at | date: "%Y年%m月%d日" }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
 
-<!-- 自动闪现淡化提示的 JavaScript -->
-<script>
-function copyLink() {
-  // 1. 获取当前页面的完整链接
-  var url = window.location.href;
+  <!-- ===== 社交分享按钮 ===== -->
+  {% if page.share != false %}
+  <div class="share">
+    <a href="https://service.weibo.com/share/share.php?title={{ page.title | url_encode }}&url={{ site.url }}{{ page.url }}" target="_blank" rel="noopener noreferrer" class="weibo">
+      微博分享
+    </a>
+    <a href="#" class="copy-link-btn" onclick="copyLink(); return false;">
+      复制链接
+    </a>
+  </div>
+  {% endif %}
 
-  // 2. 创建一个临时的输入框用来存放链接
-  var tempInput = document.createElement("input");
-  tempInput.value = url;
-  document.body.appendChild(tempInput);
+  <!-- ===== 复制链接提示 ===== -->
+  <script>
+    function copyLink() {
+      var url = window.location.href;
+      var tempInput = document.createElement("input");
+      tempInput.value = url;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      tempInput.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
 
-  // 3. 选中输入框的内容并执行复制命令
-  tempInput.select();
-  tempInput.setSelectionRange(0, 99999); // 兼容移动端
-  document.execCommand("copy");
+      var toast = document.createElement("div");
+      toast.innerText = "✅ 链接已复制！";
+      toast.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        padding: 12px 28px;
+        border-radius: 8px;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.6s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        pointer-events: none;
+      `;
+      document.body.appendChild(toast);
 
-  // 4. 移除临时输入框
-  document.body.removeChild(tempInput);
+      setTimeout(function() {
+        toast.style.opacity = "0";
+        setTimeout(function() {
+          if (toast.parentNode) {
+            document.body.removeChild(toast);
+          }
+        }, 600);
+      }, 1500);
+    }
+  </script>
 
-  // 5. 创建自动闪现并淡出的提示框
-  var toast = document.createElement("div");
-  toast.innerText = "✅ 链接已复制！";
-  
-  // 给提示框写样式，固定在屏幕正中间
-  toast.style.cssText = `
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 12px 28px;
-    border-radius: 8px;
-    font-size: 16px;
-    letter-spacing: 0.5px;
-    z-index: 9999;
-    opacity: 1;
-    transition: opacity 0.6s ease;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    pointer-events: none;
-  `;
-  
-  // 把提示框添加到页面上
-  document.body.appendChild(toast);
-
-  // 1.5秒后开始淡化消失
-  setTimeout(function() {
-    toast.style.opacity = "0"; 
-    // 0.6秒（等淡化动画结束）后从页面彻底移除这个元素
-    setTimeout(function() { 
-      if (toast.parentNode) {
-        document.body.removeChild(toast); 
-      }
-    }, 600);
-  }, 1500);
-}
-</script>
+  <!-- ===== Giscus 评论区 ===== -->
+  <script src="https://giscus.app/client.js"
+          data-repo="juststories/juststories.github.io"
+          data-repo-id="R_kgDOTpbEhw"
+          data-category="General"
+          data-category-id="DIC_kwDOTpbEh84DCnXx"
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-theme="preferred_color_scheme"
+          data-lang="zh-CN"
+          crossorigin="anonymous"
+          async>
+  </script>
+</article>
