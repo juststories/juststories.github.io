@@ -1,12 +1,10 @@
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 
-# ===== 语言设置 =====
-locale: "zh-CN"
-
 # ===== 网站标题 =====
-title: Just Stories
+title: "人间正好"
+subtitle: "Just Stories"
 title_separator: "|"
-name: Just Stories
+name: "郑好"
 
 # ===== 网站描述 =====
 description: 六便士养活肉身，月亮安顿灵魂
