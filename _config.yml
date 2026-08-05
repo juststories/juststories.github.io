@@ -1,5 +1,8 @@
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 
+# ===== 语言设置 =====
+locale: "zh-CN"
+
 # ===== 网站标题 =====
 title: Just Stories
 title_separator: "|"
