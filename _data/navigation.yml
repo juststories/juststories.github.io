@@ -3,7 +3,20 @@ main:
     url: /
   - title: "关于作者"
     url: /about/
-  - title: "全部作品"
+  - title: "全部文章"
     url: /list/
   - title: "留言板"
     url: /guestbook/
+
+# ===== 右侧栏分类菜单 =====
+categories_sidebar:
+  - title: "分类"
+    children:
+      - title: "日记"
+        url: /categories/日记/
+      - title: "随笔"
+        url: /categories/随笔/
+      - title: "小说"
+        url: /categories/小说/
+      - title: "信"
+        url: /categories/信/
