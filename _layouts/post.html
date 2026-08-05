@@ -196,6 +196,20 @@ layout: default
     }
   </script>
 
+  <!-- ===== 上一篇 / 下一篇 ===== -->
+<nav style="display: flex; justify-content: space-between; margin: 2rem 0 2.5rem 0; font-size: 0.9rem; border-top: 1px solid #e8e6e1; padding-top: 1.5rem;">
+  <span>
+    {% if page.previous.url %}
+      <a href="{{ page.previous.url }}" style="color: #555; text-decoration: none;">← {{ page.previous.title }}</a>
+    {% endif %}
+  </span>
+  <span>
+    {% if page.next.url %}
+      <a href="{{ page.next.url }}" style="color: #555; text-decoration: none;">{{ page.next.title }} →</a>
+    {% endif %}
+  </span>
+</nav>
+  
   <!-- ===== Giscus 评论区 ===== -->
   <script src="https://giscus.app/client.js"
           data-repo="juststories/juststories.github.io"
