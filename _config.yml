@@ -51,6 +51,7 @@ comments:
     lang: "zh-CN"
 
 # ===== 全局默认配置 =====
+# ===== 全局默认配置 =====
 defaults:
   - scope:
       path: ""
@@ -60,6 +61,8 @@ defaults:
       author_profile: true
       comments: true
       share: true
-#      sidebar:
-#        nav: "categories_sidebar"   # 缩进 2 个空格
+
+# ===== 搜索功能 =====
+search: true
+search_full_content: true
 
