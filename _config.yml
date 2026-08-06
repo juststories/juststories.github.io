@@ -62,3 +62,8 @@ defaults:
       share: true
       sidebar:
         nav: "categories_sidebar"   # 缩进 2 个空格
+
+# ===== 分类归档 =====
+category_archive:
+  type: liquid
+  path: /categories/
