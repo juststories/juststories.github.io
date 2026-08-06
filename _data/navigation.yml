@@ -13,10 +13,10 @@ categories_sidebar:
   - title: "分类"
     children:
       - title: "日记"
-        url: /categories/日记/
+        url: /diary/
       - title: "随笔"
-        url: /categories/随笔/
+        url: /essay/
       - title: "小说"
-        url: /categories/小说/
+        url: /fiction/
       - title: "信"
-        url: /categories/信/
+        url: /letter/
