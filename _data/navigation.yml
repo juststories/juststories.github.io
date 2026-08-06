@@ -4,7 +4,7 @@ main:
   - title: "关于作者"
     url: /about/
   - title: "分类"
-  url: /categories/
+    url: /categories/
   - title: "全部文章"
     url: /list/
   - title: "留言板"
