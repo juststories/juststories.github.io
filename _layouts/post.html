@@ -1,229 +1,45 @@
----
-layout: default
----
-
-<article class="page">
-  <header>
-    <style>
-      /* 文章标题居中，向下移动 */
-      .page__title {
-        text-align: center !important;
-        margin-top: 2rem !important;
-        margin-bottom: 1.5rem !important;
-      }
-
-      /* 正文样式：与评论框同宽 */
-      .page__content {
-        font-size: 1.2rem;
-        line-height: 2;
-        max-width: 100%;
-        margin: 0 auto;
-        color: #1a1a1a;
-      }
-
-      .page__content p {
-        margin-bottom: 1.8em;
-        text-indent: 2em;
-      }
-
-      /* 分享按钮样式 */
-      .share {
-        display: flex;
-        gap: 0.8rem;
-        justify-content: center;
-        margin: 2.5rem 0 1.5rem 0;
-        flex-wrap: wrap;
-      }
-
-      .share a {
-        padding: 0.4rem 1.2rem;
-        color: #fff;
-        border-radius: 4px;
-        text-decoration: none;
-        font-size: 0.85rem;
-        transition: opacity 0.2s;
-      }
-
-      .share a:hover {
-        opacity: 0.8;
-      }
-
-      .share .weibo {
-        background: #E6162D;
-      }
-
-      .share .copy-link-btn {
-        background: #0066cc;
-      }
-
-      /* 文章元信息块样式 */
-      .meta-block {
-        margin-top: 2rem;
-        padding: 1rem 1.2rem;
-        border: 1px solid #e8e6e1;
-        border-radius: 8px;
-        background: #fafafa;
-        font-size: 0.85rem;
-        color: #666;
-        line-height: 1.8;
-      }
-
-      .meta-block p {
-        margin: 0.2rem 0;
-      }
-
-      .meta-block .icon {
-        margin-right: 0.5rem;
-        color: #aaa;
-      }
-
-      .meta-block .tag-item {
-        display: inline-block;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 0.05rem 0.6rem;
-        margin-right: 0.3rem;
-        background: #fff;
-        font-size: 0.8rem;
-        color: #888;
-      }
-
-      .meta-block .tag-item:hover {
-        border-color: #bbb;
-        background: #f5f5f5;
-      }
-
-      .meta-block .divider {
-        margin: 0.3rem 0;
-        border: none;
-        border-top: 1px dashed #e0ddd8;
-      }
-    </style>
-    <h1 class="page__title">{{ page.title }}</h1>
-    <!-- <p class="page__meta">发布于 {{ page.date | date: "%Y-%m-%d" }}</p> -->
-  </header>
-
-  <div class="page__content">
-    {{ content }}
-  </div>
-
-  <!-- ===== 文章元信息块：分类 / 标签 / 更新时间 ===== -->
-  {% if page.categories or page.tags or page.last_modified_at %}
-  <div class="meta-block">
-    {% if page.categories %}
-      <p><span class="icon">📂</span>分类：
-        {% for category in page.categories %}
-          <span class="tag-item">{{ category }}</span>
-        {% endfor %}
-      </p>
-    {% endif %}
-
-    {% if page.categories and page.tags %}
-      <hr class="divider">
-    {% endif %}
-
-    {% if page.tags %}
-      <p><span class="icon">🏷️</span>标签：
-        {% for tag in page.tags %}
-          <span class="tag-item">{{ tag }}</span>
-        {% endfor %}
-      </p>
-    {% endif %}
-
-    {% if page.tags and page.last_modified_at %}
-      <hr class="divider">
-    {% endif %}
-
-    {% if page.last_modified_at %}
-      <p><span class="icon">🕒</span>更新时间：{{ page.last_modified_at | date: "%Y年%m月%d日" }}</p>
-    {% endif %}
-  </div>
-  {% endif %}
-
-  <!-- ===== 社交分享按钮 ===== -->
-  {% if page.share != false %}
-  <div class="share">
-    <a href="https://service.weibo.com/share/share.php?title={{ page.title | url_encode }}&url={{ site.url }}{{ page.url }}" target="_blank" rel="noopener noreferrer" class="weibo">
-      微博分享
-    </a>
-    <a href="#" class="copy-link-btn" onclick="copyLink(); return false;">
-      复制链接
-    </a>
-  </div>
-  {% endif %}
-
-  <!-- ===== 复制链接提示 ===== -->
-  <script>
-    function copyLink() {
-      var url = window.location.href;
-      var tempInput = document.createElement("input");
-      tempInput.value = url;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      tempInput.setSelectionRange(0, 99999);
-      document.execCommand("copy");
-      document.body.removeChild(tempInput);
-
-      var toast = document.createElement("div");
-      toast.innerText = "✅ 链接已复制！";
-      toast.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, 0.8);
-        color: #fff;
-        padding: 12px 28px;
-        border-radius: 8px;
-        font-size: 16px;
-        letter-spacing: 0.5px;
-        z-index: 9999;
-        opacity: 1;
-        transition: opacity 0.6s ease;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        pointer-events: none;
-      `;
-      document.body.appendChild(toast);
-
-      setTimeout(function() {
-        toast.style.opacity = "0";
-        setTimeout(function() {
-          if (toast.parentNode) {
-            document.body.removeChild(toast);
-          }
-        }, 600);
-      }, 1500);
-    }
-  </script>
-
-  <!-- ===== 上一篇 / 下一篇 ===== -->
-<nav style="display: flex; justify-content: space-between; margin: 2rem 0 2.5rem 0; font-size: 0.9rem; border-top: 1px solid #e8e6e1; padding-top: 1.5rem;">
-  <span>
-    {% if page.previous.url %}
-      <a href="{{ page.previous.url }}" style="color: #555; text-decoration: none;">← {{ page.previous.title }}</a>
-    {% endif %}
-  </span>
-  <span>
-    {% if page.next.url %}
-      <a href="{{ page.next.url }}" style="color: #555; text-decoration: none;">{{ page.next.title }} →</a>
-    {% endif %}
-  </span>
-</nav>
-  
-  <!-- ===== Giscus 评论区 ===== -->
-  <script src="https://giscus.app/client.js"
-          data-repo="juststories/juststories.github.io"
-          data-repo-id="R_kgDOTpbEhw"
-          data-category="General"
-          data-category-id="DIC_kwDOTpbEh84DCnXx"
-          data-mapping="pathname"
-          data-strict="0"
-          data-reactions-enabled="1"
-          data-emit-metadata="0"
-          data-input-position="bottom"
-          data-theme="preferred_color_scheme"
-          data-lang="zh-CN"
-          crossorigin="anonymous"
-          async>
-  </script>
-</article>
+/* 搜索框样式 */
+.search__toggle {
+  color: #555 !important;
+  font-size: 1.1rem !important;
+  padding: 0.5rem 0.8rem !important;
+  border-radius: 20px !important;
+  background: #f5f5f5 !important;
+  transition: all 0.3s ease !important;
+}
+.search__toggle:hover {
+  background: #e8e8e8 !important;
+}
+.search-content {
+  background: rgba(255,255,255,0.98) !important;
+  backdrop-filter: blur(6px) !important;
+  padding: 2rem !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12) !important;
+}
+.search-content input[type="search"] {
+  border: 2px solid #ddd !important;
+  border-radius: 30px !important;
+  padding: 0.8rem 1.5rem !important;
+  font-size: 1rem !important;
+  width: 100% !important;
+  background: #fff !important;
+}
+.search-content input[type="search"]:focus {
+  border-color: #a0a0a0 !important;
+  outline: none !important;
+}
+.search-content .search-result {
+  margin-top: 1rem !important;
+  max-height: 400px !important;
+  overflow-y: auto !important;
+}
+.search-content .search-result a {
+  padding: 0.5rem 0 !important;
+  border-bottom: 1px solid #f0f0f0 !important;
+  color: #333 !important;
+  display: block !important;
+}
+.search-content .search-result a:hover {
+  color: #000 !important;
+}
