@@ -1,6 +1,6 @@
 ---
 title: "分类"
-layout: page
+layout: single
 permalink: /categories/
 ---
 
