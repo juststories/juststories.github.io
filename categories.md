@@ -1,5 +1,5 @@
 ---
-title: "分类"
+title: "分类浏览"
 layout: single
 permalink: /categories/
 author_profile: true
