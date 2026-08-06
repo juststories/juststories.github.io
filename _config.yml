@@ -63,11 +63,3 @@ defaults:
 #      sidebar:
 #        nav: "categories_sidebar"   # 缩进 2 个空格
 
-# ===== 分类归档 =====
-jekyll-archives:
-  enabled:
-    - categories
-  layouts:
-    category: archive
-  permalinks:
-    category: /categories/:name/
