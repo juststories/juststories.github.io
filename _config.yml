@@ -65,6 +65,4 @@ defaults:
 # ===== 搜索功能 =====
 search: true
 search_full_content: true
-head_scripts:
-  - /assets/css/search-style.css
 
