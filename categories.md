@@ -2,6 +2,7 @@
 title: "分类"
 layout: single
 permalink: /categories/
+author_profile: true
 ---
 
 {% for category in site.categories %}
