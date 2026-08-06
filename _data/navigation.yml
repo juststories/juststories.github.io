@@ -12,11 +12,11 @@ main:
 categories_sidebar:
   - title: "分类"
     children:
-      - title: "日记"
-        url: /diary/
-      - title: "随笔"
-        url: /essay/
-      - title: "小说"
-        url: /fiction/
-      - title: "信"
-        url: /letter/
+      - title: "日记（{{ site.categories.日记 | size }}）"
+        url: #
+      - title: "随笔（{{ site.categories.随笔 | size }}）"
+        url: #
+      - title: "小说（{{ site.categories.小说 | size }}）"
+        url: #
+      - title: "信（{{ site.categories.信 | size }}）"
+        url: #
