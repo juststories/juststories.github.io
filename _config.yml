@@ -69,3 +69,7 @@ collections:
     output: true          # 为每个页面生成独立的 HTML 文件
     permalink: /:path/    # 保留文件路径作为 URL，如 _pages/essay.md → /essay/
 
+# 处理根目录下的所有 Markdown 文件（包括分类页面）
+include:
+  - "*.md"
+
