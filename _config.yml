@@ -63,3 +63,6 @@ defaults:
 #      sidebar:
 #        nav: "categories_sidebar"   # 缩进 2 个空格
 
+include:
+  - "*.md"
+
