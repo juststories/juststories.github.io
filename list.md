@@ -1,5 +1,5 @@
 ---
-title: "作品列表"
+title: "文章列表"
 layout: single
 permalink: /list/
 author_profile: true
