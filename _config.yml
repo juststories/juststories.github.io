@@ -1,5 +1,9 @@
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 
+# ===== 包含目录 =====
+include:
+  - pages
+
 # ===== 网站标题 =====
 title: "俗世闲想"
 subtitle: "Just Stories"
