@@ -63,6 +63,9 @@ defaults:
 #      sidebar:
 #        nav: "categories_sidebar"   # 缩进 2 个空格
 
-include:
-  - "*.md"
+# ===== 页面集合配置（处理 _pages 文件夹） =====
+collections:
+  pages:
+    output: true          # 为每个页面生成独立的 HTML 文件
+    permalink: /:path/    # 保留文件路径作为 URL，如 _pages/essay.md → /essay/
 
