@@ -1,6 +1,6 @@
 ---
 title: "文章列表"
-layout: posts
+layout: single
 permalink: /list/
 author_profile: true
 ---
