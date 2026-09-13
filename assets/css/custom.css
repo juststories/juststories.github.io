@@ -382,3 +382,440 @@ pre, code, kbd, samp {
   .landing__title { font-size: 2.5rem; }
   .page__content { font-size: 1.02rem; }
 }
+
+/* ==========================================================================
+   文章浏览 · 一页三签（分类 / 标签 / 年份）
+   ========================================================================== */
+
+.browse { margin-top: 1.6rem; }
+
+.browse__tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.browse__tab {
+  appearance: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-kai);
+  font-size: 1rem;
+  letter-spacing: 0.24em;
+  text-indent: 0.24em;
+  color: var(--ink-soft);
+  padding: 0.55em 1.4em;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s ease;
+}
+
+.browse__tab:hover { color: var(--seal); }
+
+.browse__tab.is-active {
+  color: var(--seal);
+  border-bottom-color: var(--seal);
+}
+
+.browse__pane { display: none; }
+
+.browse__pane.is-active { display: block; }
+
+@media (max-width: 768px) {
+  .browse__tab {
+    padding: 0.5em 0.9em;
+    letter-spacing: 0.12em;
+    text-indent: 0.12em;
+  }
+}
+
+/* ==========================================================================
+   文章浏览 · 可叠加筛选
+   ========================================================================== */
+
+.facet__groups {
+  margin: 1.6rem 0 0;
+}
+
+.facet__group {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem 1.1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px dashed var(--hairline);
+}
+
+.facet__group-label {
+  flex-shrink: 0;
+  font-family: var(--font-kai);
+  font-size: 0.95rem;
+  letter-spacing: 0.3em;
+  color: var(--ink-faint);
+  padding-top: 0.32em;
+  white-space: nowrap;
+}
+
+.facet__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.6rem;
+}
+
+/* 标签行：默认收起（hidden），选中分类后展开该分类的标签 */
+.facet__group--tags[hidden] { display: none; }
+
+.facet__tag-set {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.6rem;
+}
+
+.facet__tag-set[hidden] { display: none; }
+
+.facet__chip {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: var(--font-kai);
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  padding: 0.26em 0.8em;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.facet__chip:hover {
+  color: var(--seal);
+  border-color: var(--seal);
+}
+
+.facet__chip.is-active {
+  background: var(--seal);
+  border-color: var(--seal);
+  color: #f6f2e8;
+}
+
+.facet__chip-count {
+  font-size: 0.78em;
+  opacity: 0.72;
+  margin-left: 0.45em;
+  font-variant-numeric: tabular-nums;
+}
+
+.facet__status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0.2rem;
+}
+
+.facet__count {
+  font-family: var(--font-kai);
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  color: var(--ink-soft);
+}
+
+.facet__clear {
+  appearance: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-kai);
+  font-size: 0.88rem;
+  letter-spacing: 0.14em;
+  color: var(--seal);
+  border-bottom: 1px dotted rgba(147, 35, 31, 0.5);
+  padding: 0.1em 0.15em;
+}
+
+.facet__clear:hover {
+  color: var(--seal-deep);
+  border-bottom-color: var(--seal-deep);
+}
+
+.facet__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.facet__item {
+  padding: 0.95rem 0.35rem;
+  border-bottom: 1px dashed var(--hairline);
+  transition: background 0.15s ease;
+}
+
+.facet__item:hover { background: var(--paper-deep); }
+
+.facet__item.is-hidden { display: none; }
+
+.facet__title {
+  display: inline-block;
+  font-family: var(--font-song);
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.facet__item:hover .facet__title { color: var(--seal); }
+
+.facet__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.7rem;
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+}
+
+.facet__meta-cat {
+  color: var(--seal-deep);
+  border: 1px solid rgba(147, 35, 31, 0.32);
+  border-radius: 2px;
+  padding: 0 0.5em;
+  line-height: 1.65;
+}
+
+.facet__meta-tag {
+  color: var(--ink-soft);
+}
+
+.facet__meta-tag::before {
+  content: "· ";
+  color: var(--ink-faint);
+}
+
+.facet__meta-date {
+  margin-left: auto;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.facet__empty {
+  text-align: center;
+  font-family: var(--font-kai);
+  letter-spacing: 0.35em;
+  text-indent: 0.35em;
+  color: var(--ink-faint);
+  padding: 3rem 0;
+}
+
+@media (max-width: 768px) {
+  .facet__group { flex-direction: column; gap: 0.45rem; }
+  .facet__meta-date { margin-left: 0; }
+}
+
+/* ==========================================================================
+   全站精修 · 纸感与书卷气
+   ========================================================================== */
+
+/* ---------- 纸面细噪点（极淡，非 retina 上近似宣纸纹理） ---------- */
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- 正文首字下沉（书卷起笔） ---------- */
+
+.page__content > p:first-of-type::first-letter {
+  float: left;
+  font-family: var(--font-kai);
+  font-size: 2.5em;
+  line-height: 1;
+  padding: 0.06em 0.16em 0 0;
+  color: var(--seal);
+}
+
+/* ---------- 小节标题：一枚朱点 ---------- */
+
+.page__content h2 {
+  position: relative;
+  padding-left: 0.75em;
+}
+
+.page__content h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  background: var(--seal);
+  opacity: 0.75;
+  transform: rotate(45deg);
+}
+
+/* ---------- 图片：装裱 ---------- */
+
+.page__content img {
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  padding: 0.45em;
+  background: #fffdf8;
+  box-shadow: 0 1px 4px rgba(47, 43, 35, 0.07);
+}
+
+/* ---------- 表格：账册 ---------- */
+
+.page__content table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.95rem;
+}
+
+.page__content th {
+  font-family: var(--font-kai);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  background: var(--paper-deep);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.page__content th,
+.page__content td {
+  padding: 0.5em 0.9em;
+  border-bottom: 1px dashed var(--hairline);
+}
+
+.page__content tr:hover td { background: var(--paper-deep); }
+
+/* ---------- 归档 / 目录列表条目 ---------- */
+
+.archive__item {
+  padding: 0.15rem 0.35rem;
+  border-radius: 2px;
+  transition: background 0.15s ease;
+}
+
+.archive__item:hover { background: var(--paper-deep); }
+
+.archive__item:hover .archive__item-title a { color: var(--seal); }
+
+/* ---------- 分类 / 标签索引：小签 ---------- */
+
+.taxonomy__index a {
+  display: inline-block;
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  background: transparent;
+  padding: 0.22em 0.75em;
+  font-size: 0.92rem;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.taxonomy__index a:hover {
+  color: var(--seal);
+  border-color: var(--seal);
+  text-decoration: none;
+}
+
+.taxonomy__count {
+  font-family: var(--font-song);
+  font-size: 0.78em;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 回到顶部 ---------- */
+
+.back-to-top {
+  font-family: var(--font-kai);
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  color: var(--ink-faint);
+}
+
+.back-to-top:hover { color: var(--seal); }
+
+/* ---------- 搜索浮层 ---------- */
+
+.search-content__inner-wrap {
+  background: var(--paper);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.search-input-wrap .search-input {
+  border-bottom: 1px solid var(--hairline);
+  color: var(--ink);
+  font-family: var(--font-song);
+}
+
+.search-input-wrap .search-input:focus {
+  border-bottom-color: var(--seal);
+  box-shadow: none;
+}
+
+/* ---------- 面包屑 ---------- */
+
+.breadcrumbs {
+  font-family: var(--font-kai);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+}
+
+.breadcrumbs a { color: var(--ink-soft); }
+.breadcrumbs a:hover { color: var(--seal); }
+
+/* ---------- 按钮 ---------- */
+
+.btn {
+  font-family: var(--font-kai);
+  letter-spacing: 0.1em;
+  background: var(--paper);
+  color: var(--ink-soft);
+  border: 1px solid var(--hairline);
+  box-shadow: none;
+}
+
+.btn:hover {
+  background: var(--paper-deep);
+  color: var(--seal);
+  border-color: var(--seal);
+}
+
+/* ---------- 页脚：一枚花押分隔 ---------- */
+
+.page__footer footer::before {
+  content: "※";
+  display: block;
+  text-align: center;
+  color: var(--ink-faint);
+  letter-spacing: 1.2em;
+  text-indent: 1.2em;
+  margin-bottom: 0.9em;
+  font-size: 0.8rem;
+}
+
+/* ---------- 内容淡入（尊重系统减弱动效设置） ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  #main {
+    animation: fade-up 0.5s ease both;
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+}
+
+/* ---------- 细滚动条 ---------- */
+
+::-webkit-scrollbar { width: 9px; }
+::-webkit-scrollbar-track { background: var(--paper-deep); }
+::-webkit-scrollbar-thumb { background: var(--hairline); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); }
+
