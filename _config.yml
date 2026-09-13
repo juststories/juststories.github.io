@@ -1,26 +1,25 @@
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 
-# ===== 网站标题 =====
+# ===== 站点信息 =====
 title: "俗世闲想"
 subtitle: "Just Stories"
 title_separator: "|"
 name: "郑好"
-
-# ===== 网站描述 =====
 description: 六便士养活肉身，月亮安顿灵魂
+locale: "zh-CN"
+timezone: "Asia/Shanghai"
 
 # ===== 作者信息 =====
 author:
   name: "郑好"
   avatar: "/assets/avatars/avatar1.jpg"
   bio: "你来看此花时，则此花颜色一时明白起来。"
-#  location: "中国"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope"
       url: "mailto:luna_just@qq.com"
 
-# ===== 配色皮肤 =====
+# ===== 配色皮肤（视觉细节由 assets/css/custom.css 接管）=====
 minimal_mistakes_skin: "air"
 
 # ===== 侧边栏 =====
@@ -30,7 +29,7 @@ author_profile: true
 footer:
   links: []
 
-# ===== 必要插件 =====
+# ===== 插件 =====
 plugins:
   - jekyll-include-cache
   - jekyll-paginate
@@ -50,8 +49,7 @@ comments:
     theme: "preferred_color_scheme"
     lang: "zh-CN"
 
-# ===== 全局默认配置 =====
-# ===== 全局默认配置 =====
+# ===== 文章默认值：安静的书卷式阅读 =====
 defaults:
   - scope:
       path: ""
@@ -60,9 +58,9 @@ defaults:
       layout: single
       author_profile: true
       comments: true
-      share: true
+      share: false
+      read_time: false
 
-# ===== 搜索功能 =====
+# ===== 搜索 =====
 search: true
 search_full_content: true
-
