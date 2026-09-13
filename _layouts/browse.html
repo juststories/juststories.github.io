@@ -2,36 +2,35 @@
 layout: default
 ---
 
-{{ content }}
+{% capture browse_title %}{{ page.title | default: "文章浏览" }}{% endcapture %}
+{% capture browse_sub %}{{ page.subtitle | default: "分类、标签、年份，任意叠加。" }}{% endcapture %}
 
-{% comment %}
-  文章浏览：可叠加筛选
-  分类 / 标签 / 年份三组条件可任意组合（同时满足），也可只用其中一组；
-  再次点击已选中的签即取消该条件；筛选结果实时过滤，最新在前。
-  标签是分类的下一级：默认收起，选中某个分类后才展开该分类下的标签；
-  换分类或取消分类时，已选标签若不属于新分类则自动取消。
-  筛选状态写入网址（?cat=&tag=&year=），可直接分享。
-{% endcomment %}
+<div class="browse-page" id="facet-page">
 
-{% comment %} ===== 分类数据（按文章数从多到少） ===== {% endcomment %}
-{% assign categories_max = 0 %}
-{% for category in site.categories %}
-  {% if category[1].size > categories_max %}
-    {% assign categories_max = category[1].size %}
-  {% endif %}
-{% endfor %}
+  <header class="browse-page__head">
+    <h1 class="browse-page__title">{{ browse_title }}</h1>
+    <p class="browse-page__sub">{{ browse_sub }}</p>
+  </header>
 
-{% comment %} ===== 年份数据（site.posts 最新在前，年份自然从新到旧） ===== {% endcomment %}
-{% assign years_str = "" %}
-{% for post in site.posts %}
-  {% assign y = post.date | date: "%Y" %}
-  {% unless years_str contains y %}
-    {% assign years_str = years_str | append: y | append: "," %}
-  {% endunless %}
-{% endfor %}
-{% assign years = years_str | split: "," %}
+  {% comment %} ===== 分类数据（按文章数从多到少） ===== {% endcomment %}
+  {% assign categories_max = 0 %}
+  {% for category in site.categories %}
+    {% if category[1].size > categories_max %}
+      {% assign categories_max = category[1].size %}
+    {% endif %}
+  {% endfor %}
 
-<div class="facet" id="facet">
+  {% comment %} ===== 年份数据（site.posts 最新在前，年份自然从新到旧） ===== {% endcomment %}
+  {% assign years_str = "" %}
+  {% for post in site.posts %}
+    {% assign y = post.date | date: "%Y" %}
+    {% unless years_str contains y %}
+      {% assign years_str = years_str | append: y | append: "," %}
+    {% endunless %}
+  {% endfor %}
+  {% assign years = years_str | split: "," %}
+
+  <div class="facet" id="facet">
 
   {% comment %} ---------- 筛选签 ---------- {% endcomment %}
   <div class="facet__groups">
@@ -152,6 +151,8 @@ layout: default
   </ul>
 
   <p class="facet__empty" hidden>无符合条件的文章</p>
+
+  </div>
 
 </div>
 
