@@ -13,29 +13,33 @@ layout: default
 
   <div class="landing__rule" aria-hidden="true"><span class="landing__rule-dot"></span></div>
 
-  {% assign sections = "小说|信|随笔" | split: "|" %}
-  {% for section in sections %}
-    {% assign section_posts = site.categories[section] %}
-    <section class="landing__section">
-      <h2 class="landing__section-title">{{ section }}</h2>
-      {% if section_posts and section_posts.size > 0 %}
-        {% assign section_posts = section_posts | sort: 'date' | reverse %}
-        <ul class="landing__list">
-          {% for post in section_posts %}
-            <li>
-              <a class="landing__post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
-              <span class="landing__post-date">{{ post.date | date: "%Y年%m月%d日" }}</span>
-            </li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p class="landing__empty">虚位以待</p>
-      {% endif %}
-    </section>
-  {% endfor %}
+  {% comment %} 邀言：首页不挂文章，只留两行点题话 {% endcomment %}
+  <section class="landing__invite" aria-hidden="false">
+    <p class="landing__invite-line">此处不挂文章，</p>
+    <p class="landing__invite-line">却非空白。</p>
+  </section>
+
+  {% comment %} 入站门：三张门卡通向三个核心入口 {% endcomment %}
+  <nav class="landing__doors" aria-label="入站指引">
+    <a class="landing__door" href="{{ '/browse/' | relative_url }}">
+      <span class="landing__door-num">一</span>
+      <span class="landing__door-label">文章浏览</span>
+      <span class="landing__door-hint">分类 · 标签 · 年份，皆可翻阅</span>
+    </a>
+    <a class="landing__door" href="{{ '/about/' | relative_url }}">
+      <span class="landing__door-num">二</span>
+      <span class="landing__door-label">关于作者</span>
+      <span class="landing__door-hint">知我何许人，写些什么</span>
+    </a>
+    <a class="landing__door" href="{{ '/guestbook/' | relative_url }}">
+      <span class="landing__door-num">三</span>
+      <span class="landing__door-label">留言板</span>
+      <span class="landing__door-hint">坐坐，聊两句也好</span>
+    </a>
+  </nav>
 
   <footer class="landing__foot">
-    <a href="{{ '/about/' | relative_url }}">关于作者</a>·<a href="{{ '/guestbook/' | relative_url }}">留言板</a>·<a href="{{ '/list/' | relative_url }}">全部文章</a>
+    <a href="{{ '/about/' | relative_url }}">关于作者</a> · <a href="{{ '/guestbook/' | relative_url }}">留言板</a>
   </footer>
 
 </div>
