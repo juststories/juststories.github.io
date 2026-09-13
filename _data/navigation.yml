@@ -5,7 +5,7 @@ main:
     url: /about/
   - title: "全部文章"
     url: /list/
-  - title: "分类浏览"
-    url: /categories/
+  - title: "文章浏览"
+    url: /browse/
   - title: "留言板"
     url: /guestbook/
