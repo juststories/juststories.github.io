@@ -1,0 +1,42 @@
+---
+layout: default
+---
+{% include base_path %}
+
+<div id="main" role="main" class="landing">
+
+  <section class="landing__hero">
+    <p class="landing__motto">六便士养活肉身，月亮安顿灵魂</p>
+    <h1 class="landing__title">{{ site.title }}</h1>
+    <p class="landing__sub">{{ site.author.name }} ｜ {{ site.subtitle }}</p>
+    <span class="landing__seal" aria-hidden="true"><span>郑</span><span>好</span></span>
+  </section>
+
+  <div class="landing__rule" aria-hidden="true"><span class="landing__rule-dot"></span></div>
+
+  {% assign sections = "小说|信|随笔" | split: "|" %}
+  {% for section in sections %}
+    {% assign section_posts = site.categories[section] %}
+    <section class="landing__section">
+      <h2 class="landing__section-title">{{ section }}</h2>
+      {% if section_posts and section_posts.size > 0 %}
+        {% assign section_posts = section_posts | sort: 'date' | reverse %}
+        <ul class="landing__list">
+          {% for post in section_posts %}
+            <li>
+              <a class="landing__post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+              <span class="landing__post-date">{{ post.date | date: "%Y年%m月%d日" }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="landing__empty">虚位以待</p>
+      {% endif %}
+    </section>
+  {% endfor %}
+
+  <footer class="landing__foot">
+    <a href="{{ '/about/' | relative_url }}">关于作者</a>·<a href="{{ '/guestbook/' | relative_url }}">留言板</a>·<a href="{{ '/list/' | relative_url }}">全部文章</a>
+  </footer>
+
+</div>
