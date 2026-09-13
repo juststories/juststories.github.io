@@ -1,5 +1,4 @@
 ---
-title: ""
-author_profile: true
-layout: home
+title: "卷首"
+layout: landing
 ---
