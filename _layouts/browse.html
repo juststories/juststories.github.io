@@ -1,0 +1,250 @@
+---
+layout: default
+---
+
+{{ content }}
+
+{% comment %}
+  文章浏览：可叠加筛选
+  分类 / 标签 / 年份三组条件可任意组合（同时满足），也可只用其中一组；
+  再次点击已选中的签即取消该条件；筛选结果实时过滤，最新在前。
+  标签是分类的下一级：默认收起，选中某个分类后才展开该分类下的标签；
+  换分类或取消分类时，已选标签若不属于新分类则自动取消。
+  筛选状态写入网址（?cat=&tag=&year=），可直接分享。
+{% endcomment %}
+
+{% comment %} ===== 分类数据（按文章数从多到少） ===== {% endcomment %}
+{% assign categories_max = 0 %}
+{% for category in site.categories %}
+  {% if category[1].size > categories_max %}
+    {% assign categories_max = category[1].size %}
+  {% endif %}
+{% endfor %}
+
+{% comment %} ===== 年份数据（site.posts 最新在前，年份自然从新到旧） ===== {% endcomment %}
+{% assign years_str = "" %}
+{% for post in site.posts %}
+  {% assign y = post.date | date: "%Y" %}
+  {% unless years_str contains y %}
+    {% assign years_str = years_str | append: y | append: "," %}
+  {% endunless %}
+{% endfor %}
+{% assign years = years_str | split: "," %}
+
+<div class="facet" id="facet">
+
+  {% comment %} ---------- 筛选签 ---------- {% endcomment %}
+  <div class="facet__groups">
+
+    <div class="facet__group">
+      <span class="facet__group-label">分类</span>
+      <div class="facet__chips">
+        {% for i in (1..categories_max) reversed %}
+          {% for category in site.categories %}
+            {% if category[1].size == i %}
+              <button type="button" class="facet__chip" data-group="cat" data-value="{{ category[0] }}" aria-pressed="false">{{ category[0] }}<span class="facet__chip-count">{{ i }}</span></button>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+
+    {% comment %} ---------- 标签：默认收起，选中分类后只展开该分类的标签 ---------- {% endcomment %}
+    <div class="facet__group facet__group--tags" hidden>
+      <span class="facet__group-label facet__tag-label">标签</span>
+      <div class="facet__chips">
+        {% for i in (1..categories_max) reversed %}
+          {% for category in site.categories %}
+            {% if category[1].size == i %}
+
+              {% comment %} 归集该分类下出现过的标签（去重） {% endcomment %}
+              {% assign cat_tags_str = "," %}
+              {% for post in category[1] %}
+                {% for t in post.tags %}
+                  {% assign tok = t | prepend: "," | append: "," %}
+                  {% unless cat_tags_str contains tok %}
+                    {% assign cat_tags_str = cat_tags_str | append: tok %}
+                  {% endunless %}
+                {% endfor %}
+              {% endfor %}
+              {% assign cat_tags = cat_tags_str | split: "," %}
+
+              {% comment %} 该分类下标签的最大计数，用于按计数排序 {% endcomment %}
+              {% assign cat_tags_max = 0 %}
+              {% for t in cat_tags %}
+                {% if t != "" %}
+                  {% assign tc = 0 %}
+                  {% for post in category[1] %}
+                    {% if post.tags contains t %}
+                      {% assign tc = tc | plus: 1 %}
+                    {% endif %}
+                  {% endfor %}
+                  {% if tc > cat_tags_max %}
+                    {% assign cat_tags_max = tc %}
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+
+              <div class="facet__tag-set" data-cat="{{ category[0] }}" hidden>
+                {% for n in (1..cat_tags_max) reversed %}
+                  {% for t in cat_tags %}
+                    {% if t != "" %}
+                      {% assign tc = 0 %}
+                      {% for post in category[1] %}
+                        {% if post.tags contains t %}
+                          {% assign tc = tc | plus: 1 %}
+                        {% endif %}
+                      {% endfor %}
+                      {% if tc == n %}
+                        <button type="button" class="facet__chip" data-group="tag" data-value="{{ t }}" aria-pressed="false">{{ t }}<span class="facet__chip-count">{{ tc }}</span></button>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endfor %}
+              </div>
+
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="facet__group">
+      <span class="facet__group-label">年份</span>
+      <div class="facet__chips">
+        {% for year in years %}
+          {% assign cnt = 0 %}
+          {% for post in site.posts %}
+            {% assign py = post.date | date: "%Y" %}
+            {% if py == year %}
+              {% assign cnt = cnt | plus: 1 %}
+            {% endif %}
+          {% endfor %}
+          <button type="button" class="facet__chip" data-group="year" data-value="{{ year }}" aria-pressed="false">{{ year }}<span class="facet__chip-count">{{ cnt }}</span></button>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+  {% comment %} ---------- 状态行 ---------- {% endcomment %}
+  <div class="facet__status">
+    <span class="facet__count">共 {{ site.posts.size }} 篇</span>
+    <button type="button" class="facet__clear" hidden>清除筛选</button>
+  </div>
+
+  {% comment %} ---------- 文章列表（最新在前，JS 按条件过滤） ---------- {% endcomment %}
+  <ul class="facet__list">
+    {% for post in site.posts %}
+      <li class="facet__item" data-cat="{{ post.categories | join: ',' }}" data-tags="{{ post.tags | join: ',' }}" data-year="{{ post.date | date: '%Y' }}">
+        <a class="facet__title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <div class="facet__meta">
+          {% if post.categories.size > 0 %}
+            <span class="facet__meta-cat">{{ post.categories | first }}</span>
+          {% endif %}
+          {% for t in post.tags %}
+            <span class="facet__meta-tag">{{ t }}</span>
+          {% endfor %}
+          <span class="facet__meta-date">{{ post.date | date: "%Y年%m月%d日" }}</span>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <p class="facet__empty" hidden>无符合条件的文章</p>
+
+</div>
+
+<script>
+  (function () {
+    var state = { cat: '', tag: '', year: '' };
+    var chips = Array.prototype.slice.call(document.querySelectorAll('.facet__chip'));
+    var items = Array.prototype.slice.call(document.querySelectorAll('.facet__item'));
+    var countEl = document.querySelector('.facet__count');
+    var clearBtn = document.querySelector('.facet__clear');
+    var emptyEl = document.querySelector('.facet__empty');
+    var tagGroup = document.querySelector('.facet__group--tags');
+    var tagLabel = document.querySelector('.facet__tag-label');
+    var tagSets = Array.prototype.slice.call(document.querySelectorAll('.facet__tag-set'));
+
+    /* 标签跟随分类：未选分类时收起标签行；选中分类时只展开该分类的标签。
+       换分类或取消分类时，已选标签若不属于当前分类则自动取消。 */
+    function syncTags() {
+      if (tagGroup) tagGroup.hidden = !state.cat;
+      var current = null;
+      tagSets.forEach(function (s) {
+        var mine = s.getAttribute('data-cat') === state.cat;
+        s.hidden = !mine;
+        if (mine) current = s;
+      });
+      if (tagLabel) tagLabel.textContent = state.cat ? '「' + state.cat + '」标签' : '标签';
+      if (!state.cat) {
+        state.tag = '';
+      } else if (state.tag && current) {
+        var match = current.querySelectorAll('.facet__chip[data-group="tag"]');
+        var ok = false;
+        for (var i = 0; i < match.length; i++) {
+          if (match[i].getAttribute('data-value') === state.tag) ok = true;
+        }
+        if (!ok) state.tag = '';
+      }
+    }
+
+    function apply(push) {
+      syncTags();
+      var visible = 0;
+      items.forEach(function (item) {
+        var cats = (item.getAttribute('data-cat') || '').split(',');
+        var tags = (item.getAttribute('data-tags') || '').split(',');
+        var ok = (!state.cat || cats.indexOf(state.cat) !== -1)
+              && (!state.tag || tags.indexOf(state.tag) !== -1)
+              && (!state.year || item.getAttribute('data-year') === state.year);
+        item.classList.toggle('is-hidden', !ok);
+        if (ok) visible++;
+      });
+      chips.forEach(function (c) {
+        var on = state[c.getAttribute('data-group')] === c.getAttribute('data-value');
+        c.classList.toggle('is-active', on);
+        c.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      if (countEl) countEl.textContent = '共 ' + visible + ' 篇';
+      if (clearBtn) clearBtn.hidden = !state.cat && !state.tag && !state.year;
+      if (emptyEl) emptyEl.hidden = visible !== 0;
+      if (push) {
+        var params = [];
+        ['cat', 'tag', 'year'].forEach(function (k) {
+          if (state[k]) params.push(k + '=' + encodeURIComponent(state[k]));
+        });
+        try {
+          history.replaceState(null, '', params.length ? '?' + params.join('&') : location.pathname);
+        } catch (e) {}
+      }
+    }
+
+    chips.forEach(function (c) {
+      c.addEventListener('click', function () {
+        var g = c.getAttribute('data-group');
+        var v = c.getAttribute('data-value');
+        state[g] = state[g] === v ? '' : v; /* 再点一次取消该条件 */
+        apply(true);
+      });
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        state = { cat: '', tag: '', year: '' };
+        apply(true);
+      });
+    }
+
+    /* 支持 ?cat=&tag=&year= 直达某种筛选组合（tag 仅在同时指定了所属分类时生效） */
+    var q = {};
+    window.location.search.replace(/[?&]([^=&]+)=([^&]*)/g, function (_, k, v) {
+      q[k] = decodeURIComponent(v.replace(/\+/g, ' '));
+    });
+    if (q.cat) state.cat = q.cat;
+    if (q.tag && state.cat) state.tag = q.tag;
+    if (q.year) state.year = q.year;
+    apply(false);
+  })();
+</script>
