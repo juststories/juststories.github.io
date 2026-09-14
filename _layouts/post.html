@@ -26,36 +26,6 @@ layout: default
         text-indent: 2em;
       }
 
-      /* 分享按钮样式 */
-      .share {
-        display: flex;
-        gap: 0.8rem;
-        justify-content: center;
-        margin: 2.5rem 0 1.5rem 0;
-        flex-wrap: wrap;
-      }
-
-      .share a {
-        padding: 0.4rem 1.2rem;
-        color: #fff;
-        border-radius: 4px;
-        text-decoration: none;
-        font-size: 0.85rem;
-        transition: opacity 0.2s;
-      }
-
-      .share a:hover {
-        opacity: 0.8;
-      }
-
-      .share .weibo {
-        background: #E6162D;
-      }
-
-      .share .copy-link-btn {
-        background: #0066cc;
-      }
-
       /* 文章元信息块样式 */
       .meta-block {
         margin-top: 2rem;
@@ -140,60 +110,135 @@ layout: default
   </div>
   {% endif %}
 
-  <!-- ===== 社交分享按钮 ===== -->
-  {% if page.share != false %}
-  <div class="share">
-    <a href="https://service.weibo.com/share/share.php?title={{ page.title | url_encode }}&url={{ site.url }}{{ page.url }}" target="_blank" rel="noopener noreferrer" class="weibo">
-      微博分享
-    </a>
-    <a href="#" class="copy-link-btn" onclick="copyLink(); return false;">
-      复制链接
-    </a>
+  <!-- ===== 社交分享：微博 / 微信 / 小红书 / 抖音 =====
+       微博：跳微博官方分享页（网页端最直接的一条）
+       微信：手机调起系统分享面板；电脑展开二维码扫码
+       小红书 / 抖音：手机调起系统分享面板；电脑复制「标题 + 链接」并提示 -->
+  <div class="share" id="share-bar">
+    <span class="share__label">分享</span>
+    <a class="share__btn share__btn--weibo"
+       href="https://service.weibo.com/share/share.php?url={{ page.url | absolute_url | url_encode }}&title={{ page.title | append: ' ｜ ' | append: site.title | url_encode }}"
+       target="_blank" rel="noopener noreferrer">微博</a>
+    <button type="button" class="share__btn share__btn--wechat" data-share="wechat">微信</button>
+    <button type="button" class="share__btn share__btn--xiaohongshu" data-share="xiaohongshu">小红书</button>
+    <button type="button" class="share__btn share__btn--douyin" data-share="douyin">抖音</button>
   </div>
-  {% endif %}
 
-  <!-- ===== 复制链接提示 ===== -->
+  <div class="share-qr" id="share-qr" hidden>
+    <div class="share-qr__code" id="share-qr-code"></div>
+    <p class="share-qr__hint">用微信「扫一扫」，转发给好友或分享到朋友圈</p>
+    <button type="button" class="share-qr__copy" id="share-qr-copy">或复制链接</button>
+  </div>
+
   <script>
-    function copyLink() {
-      var url = window.location.href;
-      var tempInput = document.createElement("input");
-      tempInput.value = url;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      tempInput.setSelectionRange(0, 99999);
-      document.execCommand("copy");
-      document.body.removeChild(tempInput);
+  (function () {
+    var bar = document.getElementById('share-bar');
+    if (!bar) return;
 
-      var toast = document.createElement("div");
-      toast.innerText = "✅ 链接已复制！";
-      toast.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, 0.8);
-        color: #fff;
-        padding: 12px 28px;
-        border-radius: 8px;
-        font-size: 16px;
-        letter-spacing: 0.5px;
-        z-index: 9999;
-        opacity: 1;
-        transition: opacity 0.6s ease;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        pointer-events: none;
-      `;
-      document.body.appendChild(toast);
+    var pageUrl = window.location.href;
+    var pageTitle = document.title;
+    var qrBox = document.getElementById('share-qr');
+    var qrCode = document.getElementById('share-qr-code');
+    var isMobile = /Android|iPhone|iPad|iPod|Windows Phone|HarmonyOS|Mobile/i.test(navigator.userAgent);
+    var qrDone = false;
+    var toastTimer;
 
-      setTimeout(function() {
-        toast.style.opacity = "0";
-        setTimeout(function() {
-          if (toast.parentNode) {
-            document.body.removeChild(toast);
-          }
-        }, 600);
-      }, 1500);
+    /* 微博链接用当前地址重算一遍，保证与浏览器里打开的完全一致 */
+    var weibo = bar.querySelector('.share__btn--weibo');
+    if (weibo) {
+      weibo.href = 'https://service.weibo.com/share/share.php'
+        + '?url=' + encodeURIComponent(pageUrl)
+        + '&title=' + encodeURIComponent(pageTitle);
     }
+
+    /* 底部轻提示 */
+    function toast(msg) {
+      var el = document.querySelector('.share-toast');
+      if (!el) {
+        el = document.createElement('div');
+        el.className = 'share-toast';
+        document.body.appendChild(el);
+      }
+      el.textContent = msg;
+      requestAnimationFrame(function () { el.classList.add('is-on'); });
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { el.classList.remove('is-on'); }, 2600);
+    }
+
+    /* 复制到剪贴板（老浏览器降级到 execCommand） */
+    function copyText(text, okMsg) {
+      var done = function () { toast(okMsg); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, legacy);
+      } else {
+        legacy();
+      }
+      function legacy() {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.cssText = 'position:fixed;top:-1000px;opacity:0;';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (err) { toast('复制失败，请手动复制地址栏链接'); }
+        document.body.removeChild(ta);
+      }
+    }
+
+    /* 手机端：调起系统分享面板，微信 / 小红书 / 抖音 都在面板里 */
+    function systemShare() {
+      if (!navigator.share) return false;
+      navigator.share({ title: pageTitle, url: pageUrl }).catch(function () {});
+      return true;
+    }
+
+    /* 电脑端微信：展开二维码（二维码库点击时才加载，不拖慢文章） */
+    function showQr() {
+      qrBox.hidden = false;
+      if (qrDone) return;
+
+      if (window.qrcode) { draw(); return; }
+
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js';
+      s.onload = draw;
+      s.onerror = function () {
+        qrCode.textContent = '二维码加载失败，请点下方「复制链接」';
+      };
+      document.head.appendChild(s);
+
+      function draw() {
+        if (!window.qrcode) return;
+        qrDone = true;
+        var qr = qrcode(0, 'M');
+        qr.addData(pageUrl);
+        qr.make();
+        qrCode.innerHTML = qr.createImgTag(4, 8);
+      }
+    }
+
+    bar.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-share]') : null;
+      if (!btn) return;
+      var channel = btn.getAttribute('data-share');
+
+      if (channel === 'wechat') {
+        if (isMobile && systemShare()) return;
+        showQr();
+        return;
+      }
+
+      /* 小红书 / 抖音 */
+      if (isMobile && systemShare()) return;
+      var app = channel === 'douyin' ? '抖音' : '小红书';
+      copyText(pageTitle + ' ' + pageUrl, '链接已复制，打开' + app + '粘贴给好友');
+    });
+
+    var copyBtn = document.getElementById('share-qr-copy');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () { copyText(pageUrl, '链接已复制'); });
+    }
+  })();
   </script>
 
   <!-- ===== 上一篇 / 下一篇 ===== -->
