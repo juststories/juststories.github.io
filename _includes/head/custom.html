@@ -9,6 +9,7 @@
 <!-- 水墨留白主题 -->
 <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
 
-<!-- 站点图标：一枚朱印 -->
-<link rel="icon" type="image/svg+xml" href="{{ '/assets/images/favicon.svg' | relative_url }}">
-<link rel="mask-icon" href="{{ '/assets/images/favicon.svg' | relative_url }}" color="#93231f">
+<!-- 站点图标：一枚朱印（?v=2 为缓存版本号：Safari 会把旧访问的空白标签图标
+     缓存住不刷新，换地址强制它重新抓取；日后换图标时递增这个数字即可） -->
+<link rel="icon" type="image/svg+xml" href="{{ '/assets/images/favicon.svg' | relative_url }}?v=2">
+<link rel="mask-icon" href="{{ '/assets/images/favicon.svg' | relative_url }}?v=2" color="#93231f">
