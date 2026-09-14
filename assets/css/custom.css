@@ -64,6 +64,30 @@ a:hover, a:active, a:focus {
   box-shadow: none;
 }
 
+/* 顶栏整条（站名 + 导航 + 搜索按钮）与纸色完全一致：
+   主题 air 皮肤把 $background-color 设成了 #eee，.greedy-nav 因此带一层灰底，
+   与纸色 #f7f4ec 打架——这里把内层都压平成纸色。 */
+.greedy-nav,
+.greedy-nav .visible-links,
+.greedy-nav .hidden-links,
+.greedy-nav button,
+.masthead__inner-wrap {
+  background: var(--paper);
+}
+
+.greedy-nav .hidden-links {
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  box-shadow: 0 2px 10px rgba(47, 43, 35, 0.09);
+}
+
+.greedy-nav button {
+  color: var(--ink-soft);
+  border: none;
+}
+
+.greedy-nav button:hover { color: var(--seal); }
+
 .site-title {
   font-family: var(--font-kai);
   font-size: 1.35em;
@@ -203,40 +227,83 @@ pre, code, kbd, samp {
 .search__toggle:hover { color: var(--seal); }
 
 /* ==========================================================================
-   首页 · 卷首目录
+   首页 · 卷首（一页书题：题眉 · 题名 · 落款 · 朱印 · 压脚线）
    ========================================================================== */
 
 .landing {
-  max-width: 620px;
+  max-width: 680px;
   margin: 0 auto;
-  padding: 0 1.5rem 2rem;
+  padding: 0 1.5rem;
 }
 
-/* 首屏 */
+/* 首屏：撑满一屏，上下居中 */
 
 .landing__hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 4.5rem 0 3.2rem;
+  min-height: calc(100vh - 24rem);
+  padding: 4rem 0 5rem;
+  isolation: isolate;
 }
 
+/* 一枚极淡的墨晕，衬于题名之后，似宣纸洇开的水痕 */
+
+.landing__hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: min(74vw, 440px);
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -56%);
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(47, 43, 35, 0.055) 0%,
+    rgba(47, 43, 35, 0.028) 42%,
+    rgba(47, 43, 35, 0) 70%);
+}
+
+/* 题眉：小字配左右渐隐界栏 */
+
 .landing__motto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.8rem, 3vw, 1.4rem);
   font-family: var(--font-kai);
   color: var(--ink-soft);
   font-size: 0.95rem;
   letter-spacing: 0.42em;
-  margin: 0 0 1.6rem;
-  text-indent: 0.42em; /* 抵消末字后的字距，保持视觉居中 */
+  margin: 0 0 2.4rem;
 }
+
+.landing__motto > span { margin-left: 0.42em; }  /* 抵消末字后的字距，视觉居中 */
+
+.landing__motto::before,
+.landing__motto::after {
+  content: "";
+  flex: none;
+  width: clamp(1rem, 6vw, 3.2rem);
+  height: 1px;
+}
+
+.landing__motto::before { background: linear-gradient(90deg, rgba(221, 213, 195, 0), var(--hairline)); }
+.landing__motto::after  { background: linear-gradient(270deg, rgba(221, 213, 195, 0), var(--hairline)); }
 
 .landing__title {
   font-family: var(--font-kai);
-  font-size: 3.4rem;
+  font-size: clamp(2.9rem, 8.2vw, 4.4rem);
   font-weight: 600;
   letter-spacing: 0.3em;
   text-indent: 0.3em;
   color: var(--ink);
-  margin: 0 0 1.4rem;
-  line-height: 1.3;
+  margin: 0 0 1.6rem;
+  line-height: 1.28;
 }
 
 .landing__sub {
@@ -248,7 +315,7 @@ pre, code, kbd, samp {
   margin: 0;
 }
 
-/* 印章：一枚小小的朱印 */
+/* 印章：一枚小小的朱印（题名落款） */
 
 .landing__seal {
   display: inline-flex;
@@ -258,25 +325,34 @@ pre, code, kbd, samp {
   background: var(--seal);
   color: #f6f2e8;
   font-family: var(--font-kai);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   line-height: 1.5;
   letter-spacing: 0.1em;
-  padding: 0.5em 0.6em;
+  padding: 0.62em 0.72em;
   border-radius: 3px;
-  margin-top: 2.2rem;
-  box-shadow: inset 0 0 0 1.5px rgba(246, 242, 232, 0.55);
+  margin-top: 2.8rem;
+  box-shadow: inset 0 0 0 1.5px rgba(246, 242, 232, 0.55),
+              0 2px 6px rgba(147, 35, 31, 0.16);
+  transform: rotate(-1.6deg);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
   user-select: none;
 }
 
-/* 卷首与目录之间的界线 */
+.landing__seal:hover {
+  transform: rotate(0deg) scale(1.05);
+  box-shadow: inset 0 0 0 1.5px rgba(246, 242, 232, 0.6),
+              0 3px 10px rgba(147, 35, 31, 0.22);
+}
+
+/* 卷末压脚线：一线一朱点，收住整页 */
 
 .landing__rule {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.9rem;
-  margin: 0 auto 0.8rem;
-  width: 180px;
+  margin: 3.6rem auto 0;
+  width: min(58%, 240px);
 }
 
 .landing__rule::before,
@@ -284,8 +360,10 @@ pre, code, kbd, samp {
   content: "";
   flex: 1;
   height: 1px;
-  background: var(--hairline);
 }
+
+.landing__rule::before { background: linear-gradient(90deg, rgba(221, 213, 195, 0), var(--hairline)); }
+.landing__rule::after  { background: linear-gradient(270deg, rgba(221, 213, 195, 0), var(--hairline)); }
 
 .landing__rule-dot {
   width: 5px;
@@ -295,107 +373,44 @@ pre, code, kbd, samp {
   opacity: 0.75;
 }
 
-/* 邀言 */
+/* 卷首逐行淡入（整页淡入由 .landing 关闭，见文末动效段）
+   注意：整段用只动 opacity 的 fade-in，否则 fade-up 的 transform: none
+   会把朱印的 rotate(-1.6deg) 一并抹掉；标题三行再叠加 fade-up 上浮。 */
 
-.landing__invite {
-  text-align: center;
-  margin: 2.4rem 0 2.6rem;
+@media (prefers-reduced-motion: no-preference) {
+  .landing__hero > * {
+    animation: fade-in 0.9s ease both;
+  }
+
+  .landing__motto,
+  .landing__title,
+  .landing__sub {
+    animation-name: fade-up;
+    animation-duration: 0.8s;
+    animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .landing__hero > *:nth-child(1) { animation-delay: 0.05s; }
+  .landing__hero > *:nth-child(2) { animation-delay: 0.15s; }
+  .landing__hero > *:nth-child(3) { animation-delay: 0.25s; }
+  .landing__hero > *:nth-child(4) { animation-delay: 0.35s; }
+  .landing__hero > *:nth-child(5) { animation-delay: 0.5s; }
 }
-
-.landing__invite-line {
-  font-family: var(--font-kai);
-  font-size: 1.12rem;
-  letter-spacing: 0.28em;
-  text-indent: 0.28em;
-  color: var(--ink-soft);
-  line-height: 2.4;
-  margin: 0;
-}
-
-/* 入站门：三张卡片 */
-
-.landing__doors {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.9rem;
-  margin: 0 auto 2.6rem;
-  max-width: 520px;
-}
-
-.landing__door {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto;
-  column-gap: 1.2rem;
-  row-gap: 0.15rem;
-  align-items: center;
-  padding: 1rem 1.3rem;
-  border: 1px solid var(--hairline);
-  border-radius: 4px;
-  text-decoration: none;
-  color: var(--ink);
-  background: rgba(255, 253, 248, 0.4);
-  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
-}
-
-.landing__door:hover {
-  background: var(--paper-deep);
-  border-color: var(--seal);
-  text-decoration: none;
-  transform: translateX(2px);
-}
-
-.landing__door-num {
-  font-family: var(--font-kai);
-  font-size: 1.55rem;
-  font-weight: 600;
-  color: var(--seal);
-  grid-row: 1 / 3;
-  line-height: 1;
-}
-
-.landing__door-label {
-  font-family: var(--font-kai);
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: 0.3em;
-  text-indent: 0.3em;
-  color: var(--ink);
-}
-
-.landing__door:hover .landing__door-label { color: var(--seal); }
-
-.landing__door-hint {
-  font-family: var(--font-song);
-  font-size: 0.82rem;
-  color: var(--ink-faint);
-  letter-spacing: 0.06em;
-}
-
-/* 卷尾 */
-
-.landing__foot {
-  text-align: center;
-  font-family: var(--font-kai);
-  color: var(--ink-soft);
-  letter-spacing: 0.18em;
-  margin: 3.8rem 0 2rem;
-}
-
-.landing__foot a {
-  color: var(--ink-soft);
-  margin: 0 0.5em;
-}
-
-.landing__foot a:hover { color: var(--seal); }
 
 /* ---------- 移动端微调 ----------
    断点用 63.99em：与主题 64em 断点对齐，769-1023px 平板竖屏同样吃到留白规则。
    （原 .page__content 1.02rem 一条因被 post.html 内联样式压制从未生效，删除。） */
 
 @media (max-width: 63.99em) {
-  .landing__hero { padding: 3rem 0 2.4rem; }
-  .landing__title { font-size: 2.5rem; }
+  /* 卷首：手机上留出一屏内的呼吸感，题名交给 clamp() 伸缩，不再写死字号 */
+  .landing__hero {
+    min-height: calc(100vh - 20rem);
+    padding: 2.6rem 0 3.4rem;
+  }
+
+  .landing__motto { font-size: 0.86rem; margin-bottom: 1.9rem; }
+  .landing__seal { margin-top: 2.2rem; }
+  .landing__rule { margin-top: 2.8rem; }
 }
 
 /* ==========================================================================
@@ -403,48 +418,6 @@ pre, code, kbd, samp {
    ========================================================================== */
 
 .browse { margin-top: 1.6rem; }
-
-.browse__tabs {
-  display: flex;
-  justify-content: center;
-  gap: 0.4rem;
-  border-bottom: 1px solid var(--hairline);
-}
-
-.browse__tab {
-  appearance: none;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-family: var(--font-kai);
-  font-size: 1rem;
-  letter-spacing: 0.24em;
-  text-indent: 0.24em;
-  color: var(--ink-soft);
-  padding: 0.55em 1.4em;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
-  transition: color 0.15s ease;
-}
-
-.browse__tab:hover { color: var(--seal); }
-
-.browse__tab.is-active {
-  color: var(--seal);
-  border-bottom-color: var(--seal);
-}
-
-.browse__pane { display: none; }
-
-.browse__pane.is-active { display: block; }
-
-@media (max-width: 63.99em) {
-  .browse__tab {
-    padding: 0.5em 0.9em;
-    letter-spacing: 0.12em;
-    text-indent: 0.12em;
-  }
-}
 
 /* ==========================================================================
    文章浏览 · 可叠加筛选
@@ -676,28 +649,10 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* ---------- 正文首字下沉（书卷起笔） ----------
-   1. 首段取消 text-indent:2em——浮动 ::first-letter 的收缩盒会把缩进宽度
-      算进首字占位，导致首字与第二个字之间被撑开 ~43px，必须清零。
-   2. 字号按站点真实字体 LXGW WenKai 校准（webfont 由 head/custom.html 加载）：
-      实测字形墨迹高 ≈ 1.184 × fs，两行行高 = 4 × 正文 fs
-      → fs = 4 / 1.184 ≈ 3.38em，首字顶边贴第一行行盒顶、底边贴第二行行盒底。
-   3. padding-top 0.09em 把字形顶压到第一行顶（LXGW 字形顶在浮盒内
-      偏上约 0.097em）；padding-right 0.04em 让首字紧贴第二个字（间隙 ≈ 3px）。 */
-
-.page__content > p:first-of-type {
-  text-indent: 0;
-}
-
-.page__content > p:first-of-type::first-letter {
-  float: left;
-  font-family: var(--font-kai);
-  font-size: 3.38em;
-  line-height: 1;
-  padding: 0.09em 0.04em 0 0;
-  margin: 0;
-  color: var(--seal);
-}
+/* ---------- 正文：通篇同字号同字体 ----------
+   原「首字下沉」（放大红色首字）已按要求取消：正文第一段与其他段落完全一致，
+   首字不再放大、不再变朱色。段落 2 字符缩进仍来自 post.html 内联样式，
+   所以第一段照旧缩进两个字，与通篇统一。 */
 
 /* ---------- 小节标题：一枚朱点 ---------- */
 
@@ -847,18 +802,26 @@ body::after {
   border-color: var(--seal);
 }
 
-/* ---------- 页脚：一枚花押分隔 ---------- */
+/* ---------- 页脚：花押与版权同行，整行居中 ---------- */
+
+.page__footer footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  text-align: center;
+}
 
 .page__footer footer::before {
   content: "※";
-  display: block;
-  text-align: center;
+  flex: none;
   color: var(--ink-faint);
-  letter-spacing: 1.2em;
-  text-indent: 1.2em;
-  margin-bottom: 0.9em;
-  font-size: 0.8rem;
+  font-size: 0.85em;
+  line-height: 1;
 }
+
+.page__footer-copyright p { margin: 0; }
 
 /* ---------- 内容淡入（尊重系统减弱动效设置） ---------- */
 
@@ -867,9 +830,17 @@ body::after {
     animation: fade-up 0.5s ease both;
   }
 
+  /* 卷首改由 .landing__hero 子元素逐行淡入（见首页段），整页淡入在此关闭 */
+  #main.landing { animation: none; }
+
   @keyframes fade-up {
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: none; }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
 }
 
@@ -879,6 +850,148 @@ body::after {
 ::-webkit-scrollbar-track { background: var(--paper-deep); }
 ::-webkit-scrollbar-thumb { background: var(--hairline); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); }
+
+/* ==========================================================================
+   文章分享 · 微博 / 微信 / 小红书 / 抖音
+   纸墨风按钮：细边、淡字，小圆点透出各渠道品牌色，悬停点亮。
+   ========================================================================== */
+
+.share {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 2.8rem 0 1.6rem;
+  font-family: var(--font-kai);
+}
+
+.share__label {
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  text-indent: 0.22em;
+  color: var(--ink-faint);
+  margin-right: 0.2rem;
+}
+
+.share__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.36em 1.05em;
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--font-kai);
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  line-height: 1.9;
+  text-decoration: none;
+  cursor: pointer;
+  appearance: none;
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.share__btn::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand, var(--ink-faint));
+  opacity: 0.55;
+  transition: opacity 0.18s ease;
+}
+
+.share__btn:hover,
+.share__btn:focus-visible {
+  color: var(--seal);
+  border-color: var(--seal);
+  background: rgba(255, 253, 248, 0.6);
+  text-decoration: none;
+}
+
+.share__btn:hover::before { opacity: 1; }
+
+.share__btn--weibo       { --brand: #e6162d; }
+.share__btn--wechat      { --brand: #07c160; }
+.share__btn--xiaohongshu { --brand: #ff2442; }
+.share__btn--douyin      { --brand: #161823; }
+
+/* 微信二维码弹层 */
+
+.share-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  width: fit-content;
+  margin: 0 auto 1.6rem;
+  padding: 1.1rem 1.3rem;
+  border: 1px solid var(--hairline);
+  border-radius: 4px;
+  background: #fffdf8;
+  box-shadow: 0 2px 12px rgba(47, 43, 35, 0.07);
+}
+
+.share-qr[hidden] { display: none; }
+
+.share-qr__code img,
+.share-qr__code canvas {
+  display: block;
+  width: 180px;
+  height: 180px;
+}
+
+.share-qr__hint {
+  margin: 0;
+  font-family: var(--font-kai);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+}
+
+.share-qr__copy {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--font-kai);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-decoration: underline;
+  text-decoration-color: rgba(147, 35, 31, 0.35);
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.share-qr__copy:hover { color: var(--seal); }
+
+/* 复制/分享后的轻提示 */
+
+.share-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 3rem;
+  transform: translateX(-50%);
+  z-index: 9999;
+  max-width: min(88vw, 26rem);
+  padding: 0.7em 1.4em;
+  border-radius: 3px;
+  background: rgba(47, 43, 35, 0.92);
+  color: #f6f2e8;
+  font-family: var(--font-kai);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  line-height: 1.7;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.share-toast.is-on { opacity: 1; }
 
 /* ==========================================================================
    移动端阅读优化 · 参考微信读书
@@ -904,15 +1017,16 @@ body::after {
     line-height: 1.85;
   }
 
-  /* 3) 首字下沉按新行高等比缩放（LXGW WenKai ink/fs ≈ 1.184）：
-        两行行高 = 2 × 1.85 × 17px = 62.9px；
-        cap_fs = 62.9 / 1.1884 ≈ 3.13em；padding-top 0.09em 压顶到第一行。 */
-  .page__content > p:first-of-type::first-letter {
-    font-size: 3.13em;
-    padding-top: 0.09em;
-  }
+  /* 3) 分享栏在窄屏两行排布，按钮略收 */
+  .share { gap: 0.45rem; }
+  .share__label { width: 100%; text-align: center; margin: 0 0 0.1rem; }
+  .share__btn { padding: 0.32em 0.85em; font-size: 0.8rem; }
 
-  /* 4) 浏览页筛选列表：标题与条目随窄屏收紧 */
+  /* 4) 微信二维码弹层：手机上收窄，避免溢出 */
+  .share-qr { padding: 1rem 1.1rem; }
+  .share-qr__code img { width: 160px; height: 160px; }
+
+  /* 5) 浏览页筛选列表：标题与条目随窄屏收紧 */
   .facet__count { white-space: normal; }
 }
 
