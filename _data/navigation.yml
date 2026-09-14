@@ -1,9 +1,9 @@
 main:
   - title: "首页"
     url: /
-  - title: "关于作者"
-    url: /about/
   - title: "文章浏览"
     url: /browse/
+  - title: "关于作者"
+    url: /about/
   - title: "留言板"
     url: /guestbook/
