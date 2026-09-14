@@ -2,44 +2,20 @@
 layout: default
 ---
 
+{% comment %} 卷首：一页书题 —— 题眉 · 题名 · 落款 · 朱印 · 压脚线。
+   首页不挂文章，也不设门卡；入口都在顶栏导航里。 {% endcomment %}
+
 <div id="main" role="main" class="landing">
 
   <section class="landing__hero">
-    <p class="landing__motto">六便士养活肉身，月亮安顿灵魂</p>
+    <p class="landing__motto"><span>{{ site.description }}</span></p>
     <h1 class="landing__title">{{ site.title }}</h1>
     <p class="landing__sub">{{ site.author.name }} ｜ {{ site.subtitle }}</p>
-    <span class="landing__seal" aria-hidden="true"><span>郑</span><span>好</span></span>
+    <span class="landing__seal" aria-hidden="true">
+      <span>{{ site.author.name | slice: 0, 1 }}</span>
+      <span>{{ site.author.name | slice: 1, 1 }}</span>
+    </span>
+    <div class="landing__rule" aria-hidden="true"><span class="landing__rule-dot"></span></div>
   </section>
-
-  <div class="landing__rule" aria-hidden="true"><span class="landing__rule-dot"></span></div>
-
-  {% comment %} 邀言：首页不挂文章，只留两行点题话 {% endcomment %}
-  <section class="landing__invite" aria-hidden="false">
-    <p class="landing__invite-line">此处不挂文章，</p>
-    <p class="landing__invite-line">却非空白。</p>
-  </section>
-
-  {% comment %} 入站门：三张门卡通向三个核心入口 {% endcomment %}
-  <nav class="landing__doors" aria-label="入站指引">
-    <a class="landing__door" href="{{ '/browse/' | relative_url }}">
-      <span class="landing__door-num">一</span>
-      <span class="landing__door-label">文章浏览</span>
-      <span class="landing__door-hint">分类 · 标签 · 年份，皆可翻阅</span>
-    </a>
-    <a class="landing__door" href="{{ '/about/' | relative_url }}">
-      <span class="landing__door-num">二</span>
-      <span class="landing__door-label">关于作者</span>
-      <span class="landing__door-hint">知我何许人，写些什么</span>
-    </a>
-    <a class="landing__door" href="{{ '/guestbook/' | relative_url }}">
-      <span class="landing__door-num">三</span>
-      <span class="landing__door-label">留言板</span>
-      <span class="landing__door-hint">坐坐，聊两句也好</span>
-    </a>
-  </nav>
-
-  <footer class="landing__foot">
-    <a href="{{ '/about/' | relative_url }}">关于作者</a> · <a href="{{ '/guestbook/' | relative_url }}">留言板</a>
-  </footer>
 
 </div>
