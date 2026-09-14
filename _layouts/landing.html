@@ -3,7 +3,8 @@ layout: default
 ---
 
 {% comment %} 卷首：一页书题 —— 题眉 · 题名 · 落款 · 朱印 · 压脚线。
-   首页不挂文章，也不设门卡；入口都在顶栏导航里。 {% endcomment %}
+   压脚线之下直接铺开最新一篇文章的全文，不另设门卡；
+   其余入口都在顶栏导航里。 {% endcomment %}
 
 <div id="main" role="main" class="landing">
 
@@ -17,5 +18,25 @@ layout: default
     </span>
     <div class="landing__rule" aria-hidden="true"><span class="landing__rule-dot"></span></div>
   </section>
+
+  {%- assign latest = site.posts.first -%}
+  {%- if latest -%}
+  <section class="landing__latest">
+    <p class="landing__latest-meta">
+      <time datetime="{{ latest.date | date: '%Y-%m-%d' }}">{{ latest.date | date: "%Y 年 %-m 月 %-d 日" }}</time>
+      {%- if latest.categories and latest.categories.size > 0 -%}
+      <span class="landing__latest-cat">{{ latest.categories | first }}</span>
+      {%- endif -%}
+    </p>
+
+    <h2 class="landing__latest-title">
+      <a href="{{ latest.url | relative_url }}">{{ latest.title }}</a>
+    </h2>
+
+    <div class="page__content landing__latest-body">
+      {{ latest.content }}
+    </div>
+  </section>
+  {%- endif -%}
 
 </div>
