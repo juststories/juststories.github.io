@@ -230,7 +230,10 @@ pre, code, kbd, samp {
    首页 · 卷首（一页书题：题眉 · 题名 · 落款 · 朱印 · 压脚线）
    ========================================================================== */
 
-.landing {
+/* 注意：主题给 #main 用的是 id 选择器（max-width: 1280px / padding: 1rem），
+   类选择器 .landing 压不住，这里必须写成 #main.landing（1,1,0）才收得回书页宽。 */
+
+#main.landing {
   max-width: 680px;
   margin: 0 auto;
   padding: 0 1.5rem;
@@ -280,15 +283,18 @@ pre, code, kbd, samp {
   font-size: 0.95rem;
   letter-spacing: 0.42em;
   margin: 0 0 2.4rem;
+  white-space: nowrap;   /* 书页宽收窄后题眉仍走一行，不折字 */
 }
 
 .landing__motto > span { margin-left: 0.42em; }  /* 抵消末字后的字距，视觉居中 */
 
+/* 两侧界栏可伸缩：宽屏最长 3.2rem，窄屏自动收短，不与题眉抢位 */
 .landing__motto::before,
 .landing__motto::after {
   content: "";
-  flex: none;
-  width: clamp(1rem, 6vw, 3.2rem);
+  flex: 1 1 auto;
+  min-width: 0.6rem;
+  max-width: 3.2rem;
   height: 1px;
 }
 
@@ -373,6 +379,61 @@ pre, code, kbd, samp {
   opacity: 0.75;
 }
 
+/* ---------- 压脚线之下：直接铺开最新一篇文章的全文 ----------
+   宽度沿用 .landing 的 680px 书页宽，与卷首同一栏位；
+   正文取 .page__content 类的全套装饰（朱点小标题、装裱图片、账册表格），
+   只把字号与缩进按首页调一档。 */
+
+.landing__latest {
+  margin: 4.4rem 0 0;
+  padding-bottom: 1.6rem;
+}
+
+.landing__latest-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9em;
+  margin: 0 0 1.1rem;
+  font-family: var(--font-kai);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-indent: 0.2em;
+  color: var(--ink-faint);
+}
+
+.landing__latest-cat {
+  padding: 0.12em 0.62em;
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  letter-spacing: 0.14em;
+  text-indent: 0.14em;
+}
+
+.landing__latest-title {
+  margin: 0 0 2.8rem;
+  text-align: center;
+  font-size: 1.55rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-indent: 0.12em;
+  line-height: 1.65;
+}
+
+.landing__latest-title a { color: var(--ink); text-decoration: none; }
+.landing__latest-title a:hover { color: var(--seal); }
+
+.landing__latest-body {
+  font-size: 1.14rem;
+  line-height: 2;
+  color: var(--ink);
+}
+
+.landing__latest-body p {
+  text-indent: 2em;
+  margin-bottom: 1.8em;
+}
+
 /* 卷首逐行淡入（整页淡入由 .landing 关闭，见文末动效段）
    注意：整段用只动 opacity 的 fade-in，否则 fade-up 的 transform: none
    会把朱印的 rotate(-1.6deg) 一并抹掉；标题三行再叠加 fade-up 上浮。 */
@@ -411,6 +472,11 @@ pre, code, kbd, samp {
   .landing__motto { font-size: 0.86rem; margin-bottom: 1.9rem; }
   .landing__seal { margin-top: 2.2rem; }
   .landing__rule { margin-top: 2.8rem; }
+
+  /* 最新一篇：手机上字号收到与文章页一致（17px 档） */
+  .landing__latest { margin-top: 3.2rem; }
+  .landing__latest-title { font-size: 1.3rem; }
+  .landing__latest-body { font-size: 1.06rem; }
 }
 
 /* ==========================================================================
@@ -821,6 +887,17 @@ body::after {
   line-height: 1;
 }
 
+/* 主题把版权字色设成 $footer-text-color（air 皮肤下混入白，纸底上几乎看不见），
+   这里连同 .page__footer-copyright 一起压回淡墨；※ 花押另有自己的宿墨色。 */
+
+.page__footer,
+.page__footer footer,
+.page__footer-copyright,
+.page__footer-copyright p,
+.page__footer p {
+  color: var(--ink-soft);
+}
+
 .page__footer-copyright p { margin: 0; }
 
 /* ---------- 内容淡入（尊重系统减弱动效设置） ---------- */
@@ -853,7 +930,8 @@ body::after {
 
 /* ==========================================================================
    文章分享 · 微博 / 微信 / 小红书 / 抖音
-   纸墨风按钮：细边、淡字，小圆点透出各渠道品牌色，悬停点亮。
+   纸墨风按钮：细边、淡字，前置各渠道官方图标（内联 SVG，无外链请求），
+   常态品牌色压低一档，悬停点亮。
    ========================================================================== */
 
 .share {
@@ -893,14 +971,14 @@ body::after {
   transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
 }
 
-.share__btn::before {
-  content: "";
+/* 平台图标：内联 SVG，尺寸随字号走，颜色取各渠道品牌色 */
+
+.share__icon {
   flex: none;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--brand, var(--ink-faint));
-  opacity: 0.55;
+  width: 1.05em;
+  height: 1.05em;
+  fill: var(--brand, var(--ink-faint));
+  opacity: 0.8;
   transition: opacity 0.18s ease;
 }
 
@@ -912,7 +990,8 @@ body::after {
   text-decoration: none;
 }
 
-.share__btn:hover::before { opacity: 1; }
+.share__btn:hover .share__icon,
+.share__btn:focus-visible .share__icon { opacity: 1; }
 
 .share__btn--weibo       { --brand: #e6162d; }
 .share__btn--wechat      { --brand: #07c160; }
