@@ -5,6 +5,7 @@ layout: default
 {% capture browse_title %}{{ page.title | default: "文章浏览" }}{% endcapture %}
 {% capture browse_sub %}{{ page.subtitle | default: "分类、标签、年份，任意叠加。" }}{% endcapture %}
 
+<article class="page">
 <div class="browse-page" id="facet-page">
 
   <header class="browse-page__head">
@@ -155,6 +156,7 @@ layout: default
   </div>
 
 </div>
+</article>
 
 <script>
   (function () {
