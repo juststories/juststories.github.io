@@ -1,0 +1,29 @@
+---
+layout: default
+---
+
+{% comment %}
+  关于作者：顶部统一页头（与「文章浏览」「留言板」完全同款），
+  下方保留原来的作者资料卡 + 正文两栏结构。
+{% endcomment %}
+
+<div class="about-head">
+  <header class="browse-page__head">
+    <h1 class="browse-page__title">{{ page.title | default: "关于作者" }}</h1>
+    <p class="browse-page__sub">{{ page.subtitle | default: "写字的人，也是过日子的人。" }}</p>
+  </header>
+</div>
+
+<div id="main" role="main">
+
+  {% include sidebar.html %}
+
+  <article class="page">
+    <div class="page__inner-wrap">
+      <section class="page__content" itemprop="text">
+        {{ content }}
+      </section>
+    </div>
+  </article>
+
+</div>
