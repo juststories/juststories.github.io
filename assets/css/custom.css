@@ -231,12 +231,21 @@ pre, code, kbd, samp {
    ========================================================================== */
 
 /* 注意：主题给 #main 用的是 id 选择器（max-width: 1280px / padding: 1rem），
-   类选择器 .landing 压不住，这里必须写成 #main.landing（1,1,0）才收得回书页宽。 */
+   类选择器 .landing 压不住，这里必须写成 #main.landing（1,1,0）才收得回书页宽。
+   容器放宽到 888px（= 840px 正文 + 左右各 1.5rem padding），让压脚线下的
+   最新全文块与单篇文章正文同宽；卷首本身收窄居中（见 .landing__hero）。 */
 
 #main.landing {
-  max-width: 680px;
+  max-width: 906px;
   margin: 0 auto;
   padding: 0 1.5rem;
+}
+
+/* 卷首（题眉·题名·落款·朱印·压脚线）保持原先的书题页紧凑宽度 */
+.landing__hero {
+  max-width: 632px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* 首屏：撑满一屏，上下居中 */
@@ -380,12 +389,13 @@ pre, code, kbd, samp {
 }
 
 /* ---------- 压脚线之下：直接铺开最新一篇文章的全文 ----------
-   宽度沿用 .landing 的 680px 书页宽，与卷首同一栏位；
+   宽度与单篇文章正文同宽（840px 栏位，容器 888px 减左右 padding）；
    正文取 .page__content 类的全套装饰（朱点小标题、装裱图片、账册表格），
    只把字号与缩进按首页调一档。 */
 
 .landing__latest {
-  margin: 4.4rem 0 0;
+  max-width: 840px;
+  margin: 4.4rem auto 0;
   padding-bottom: 1.6rem;
 }
 
@@ -494,6 +504,17 @@ pre, code, kbd, samp {
 .browse-page {
   width: 100%;
   padding: 1.6rem 0 3rem;
+  box-sizing: border-box;
+}
+
+/* ---------- 留言板：与浏览页同宽的题头 + 留言区 ---------- */
+
+.guestbook-page { padding-bottom: 2.4rem; }
+
+.guestbook__body {
+  max-width: 840px;
+  margin: 1.8rem auto 0;
+  padding: 0 1.5rem;
   box-sizing: border-box;
 }
 
@@ -648,9 +669,17 @@ pre, code, kbd, samp {
   font-size: 1.05rem;
   letter-spacing: 0.04em;
   color: var(--ink);
+  text-decoration: none;
 }
 
 .facet__item:hover .facet__title { color: var(--seal); }
+
+/* 主题给链接的全局下划线在列表场景不体面，压掉（悬停也只变色不加线） */
+.browse-page .facet__title,
+.browse-page .facet__title:hover,
+.browse-page .facet__title:focus {
+  text-decoration: none;
+}
 
 .facet__meta {
   display: flex;
@@ -868,7 +897,7 @@ body::after {
   border-color: var(--seal);
 }
 
-/* ---------- 页脚：花押与版权同行，整行居中 ---------- */
+/* ---------- 页脚：版权与来信入口同行，整行居中 ---------- */
 
 .page__footer footer {
   display: flex;
@@ -879,16 +908,8 @@ body::after {
   text-align: center;
 }
 
-.page__footer footer::before {
-  content: "※";
-  flex: none;
-  color: var(--ink-faint);
-  font-size: 0.85em;
-  line-height: 1;
-}
-
 /* 主题把版权字色设成 $footer-text-color（air 皮肤下混入白，纸底上几乎看不见），
-   这里连同 .page__footer-copyright 一起压回淡墨；※ 花押另有自己的宿墨色。 */
+   这里连同 .page__footer-copyright 一起压回淡墨。 */
 
 .page__footer,
 .page__footer footer,
@@ -899,6 +920,23 @@ body::after {
 }
 
 .page__footer-copyright p { margin: 0; }
+
+/* 版权行末尾的来信入口：一枚信封图标，与文字同色，悬停转朱 */
+.page__footer-copyright .footer__mail {
+  display: inline-block;
+  margin-left: 0.45em;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.18s ease, transform 0.18s ease;
+}
+
+.page__footer-copyright .footer__mail i { font-size: 1em; vertical-align: -0.08em; }
+
+.page__footer-copyright .footer__mail:hover,
+.page__footer-copyright .footer__mail:focus {
+  color: var(--seal);
+  transform: translateY(-1px);
+}
 
 /* ---------- 内容淡入（尊重系统减弱动效设置） ---------- */
 
