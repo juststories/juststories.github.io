@@ -1,9 +1,7 @@
 ---
 title: "留言板"
 permalink: /guestbook/
-layout: single
-author_profile: true
-comments: true
+layout: guestbook
 ---
 
 <p style="font-size: 14px; color: #888; margin-top: 4px;">
