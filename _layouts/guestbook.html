@@ -1,0 +1,18 @@
+---
+layout: default
+---
+
+<article class="page">
+<div class="browse-page guestbook-page">
+
+  <header class="browse-page__head">
+    <h1 class="browse-page__title">{{ page.title | default: "留言板" }}</h1>
+    <p class="browse-page__sub">{{ page.subtitle | default: "见字如面，落笔即客。" }}</p>
+  </header>
+
+  <div class="guestbook__body">
+    {{ content }}
+  </div>
+
+</div>
+</article>
