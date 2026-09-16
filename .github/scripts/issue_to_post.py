@@ -188,20 +188,35 @@ def main():
     if not content:
         fail("正文是空的。")
 
-    # 日期：表单里填了合法日期就用它（补写日记可以倒填）；留空时——
-    #   编辑已有文章 → 保留原文章的日期（只改字不动日期，网址也不变）
-    #   重新打开恢复 → 用评论标记里存的原日期
-    #   全新发布     → 用提交此刻的时间（北京时间，精确到秒）
+    # 日期 / 时间（两个都是选填）：
+    #   日期 + 时间都填 → 精确到分（补写旧日记的完整时刻）
+    #   只填日期       → 只定到这一天（和以前行为一致）
+    #   只填时间       → 沿用原本该用的日期（新文章=提交那天；编辑/恢复=原日期），只指定时刻
+    #   都留空         → 编辑保留原日期；恢复用评论标记里的原日期；全新发布用提交此刻
     date = section(body, "发布日期")
-    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
+    hm = section(body, "发布时间")
+    if hm:
+        mt = re.fullmatch(r"([01]?\d|2[0-3]):([0-5]\d)", hm)
+        if not mt:
+            fail("「发布时间」的格式不太对（应像 23:05 这样，24 小时制），改一下再提交。")
+        hm = "%02d:%s" % (int(mt.group(1)), mt.group(2))
+    if hm and re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
+        date_fm = "%s %s:00 +0800" % (date, hm)
+    elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
         date_fm = date
     elif old_path:
         m = re.search(r"^date:[ \t]*(.+)$", open(old_path, encoding="utf-8").read(), re.M)
         date_fm = m.group(1).strip() if m else now
+        if hm:
+            date_fm = "%s %s:00 +0800" % (date_fm[:10], hm)
     elif marker_date:
         date_fm = marker_date
+        if hm:
+            date_fm = "%s %s:00 +0800" % (date_fm[:10], hm)
     else:
         date_fm = now
+        if hm:
+            date_fm = "%s %s:00 +0800" % (date_fm[:10], hm)
     day = date_fm[:10]
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", day):
         date_fm = day = today
