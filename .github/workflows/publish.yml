@@ -1,0 +1,68 @@
+name: 发文（表单 → 博客文章）
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled]
+
+permissions:
+  contents: write
+  issues: write
+
+# 同一篇文章的连续操作排队执行，避免快速连点导致推送互相冲突
+concurrency:
+  group: publish-post-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    # 只处理「✍️ 发新文章」表单提交的 issue（以正文里的「### 正文」栏目为标记）
+    if: contains(github.event.issue.body, '### 正文')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 取回 issue 评论（找已发布文章的文件名）
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api "repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments" > /tmp/comments.json
+
+      - name: 生成 / 更新 / 撤下文章
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_ACTION: ${{ github.event.action }}
+          ISSUE_STATE: ${{ github.event.issue.state }}
+          ISSUE_LABEL: ${{ github.event.label.name }}
+          ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ',') }}
+          COMMENTS_FILE: /tmp/comments.json
+        run: |
+          POST_DATE="$(TZ=Asia/Shanghai date +%F)" \
+          POST_DATETIME="$(TZ=Asia/Shanghai date '+%F %T +0800')" \
+          python3 .github/scripts/issue_to_post.py | tee /tmp/env.out
+          cat /tmp/env.out >> "$GITHUB_ENV"
+
+      - name: 提交并推送
+        if: env.POST_STATUS != 'none'
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+        run: |
+          git config user.name "juststories"
+          git config user.email "juststories@users.noreply.github.com"
+          git add -A _posts _drafts
+          if git diff --cached --quiet; then
+            echo "内容没有变化，无需提交"
+          else
+            printf '发文 #%s：%s\n' "$ISSUE_NUMBER" "$ISSUE_TITLE" | git commit -F -
+            git push
+          fi
+
+      - name: 在 issue 里回复结果
+        if: env.POST_STATUS != 'none'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --body-file /tmp/comment.md
