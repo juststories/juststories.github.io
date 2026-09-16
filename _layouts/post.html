@@ -77,9 +77,17 @@ layout: default
     {{ content }}
   </div>
 
-  <!-- ===== 文章元信息块：分类 / 标签 / 更新时间 ===== -->
-  {% if page.categories or page.tags or page.last_modified_at %}
+  <!-- ===== 文章元信息块：发布时间 / 分类 / 标签 / 更新时间 ===== -->
+  {% if page.date or page.categories or page.tags or page.last_modified_at %}
   <div class="meta-block">
+    {% if page.date %}
+      <p><span class="icon">📅</span>发布时间：{{ page.date | date: "%Y年%m月%d日 %H:%M" }}</p>
+    {% endif %}
+
+    {% if page.date and (page.categories or page.tags) %}
+      <hr class="divider">
+    {% endif %}
+
     {% if page.categories %}
       <p><span class="icon">📂</span>分类：
         {% for category in page.categories %}

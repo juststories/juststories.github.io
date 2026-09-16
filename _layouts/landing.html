@@ -23,7 +23,7 @@ layout: default
   {%- if latest -%}
   <section class="landing__latest">
     <p class="landing__latest-meta">
-      <time datetime="{{ latest.date | date: '%Y-%m-%d' }}">{{ latest.date | date: "%Y 年 %-m 月 %-d 日" }}</time>
+      <time datetime="{{ latest.date | date: '%Y-%m-%d' }}">{{ latest.date | date: "%Y 年 %-m 月 %-d 日 %H:%M" }}</time>
       {%- if latest.categories and latest.categories.size > 0 -%}
       <span class="landing__latest-cat">{{ latest.categories | first }}</span>
       {%- endif -%}

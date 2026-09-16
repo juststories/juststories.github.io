@@ -145,7 +145,7 @@ layout: default
           {% for t in post.tags %}
             <span class="facet__meta-tag">{{ t }}</span>
           {% endfor %}
-          <span class="facet__meta-date">{{ post.date | date: "%Y年%m月%d日" }}</span>
+          <span class="facet__meta-date">{{ post.date | date: "%Y年%m月%d日 %H:%M" }}</span>
         </div>
       </li>
     {% endfor %}
