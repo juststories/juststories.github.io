@@ -44,25 +44,32 @@ jobs:
           cat /tmp/env.out >> "$GITHUB_ENV"
 
       - name: 提交并推送
+        id: commit
         if: env.POST_STATUS != 'none'
+        # 这一步失败也不要中断整个流程：下面「回复结果」会照常留言告诉用户
+        continue-on-error: true
         env:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
         run: |
           git config user.name "juststories"
           git config user.email "juststories@users.noreply.github.com"
+          mkdir -p _drafts
           git add -A _posts _drafts
           if git diff --cached --quiet; then
             echo "内容没有变化，无需提交"
           else
             printf '发文 #%s：%s\n' "$ISSUE_NUMBER" "$ISSUE_TITLE" | git commit -F -
-            git push
+            git push || (echo "推送冲突，自动同步后重试" && git pull --rebase --autostash && git push)
           fi
 
       - name: 在 issue 里回复结果
-        if: env.POST_STATUS != 'none'
+        if: always() && env.POST_STATUS != 'none'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
+          if [ "${{ steps.commit.outcome }}" = "failure" ]; then
+            printf '\n\n⚠️ 文章内容已生成，但「自动提交」这一步失败了，网站上暂时看不到。多半是权限或临时故障，把这条截图发我即可。\n' >> /tmp/comment.md
+          fi
           gh issue comment "$ISSUE_NUMBER" --body-file /tmp/comment.md
