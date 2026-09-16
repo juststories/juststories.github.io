@@ -1,75 +1,55 @@
-name: 发文（表单 → 博客文章）
+name: ✍️ 发新文章
+description: 像写博客一样发文——填好表单，提交后自动发布到博客
+title: 文章标题写在这里
+labels: [发文章]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **顶部标题栏就是文章标题**。下面选分类、填标签，正文直接写字，点提交（Submit new issue）即发布。
+        正文里可以直接粘贴图片（⌘+V / Ctrl+V），不用管任何代码。
+  - type: dropdown
+    id: category
+    attributes:
+      label: 分类
+      description: 这篇文章属于哪个栏目
+      options:
+        - 日记
+        - 随笔
+        - 小说
+        - 信
+    validations:
+      required: true
+  - type: input
+    id: tags
+    attributes:
+      label: 标签
+      description: 选填。多个用逗号隔开，例如：生活, 读书
+      placeholder: "生活, 读书"
+  - type: input
+    id: date
+    attributes:
+      label: 发布日期
+      description: 选填，留空即可＝自动用提交那一刻的时间。补写过去的日记才填，格式 2026-09-16
+      placeholder: "2026-09-16"
+  - type: input
+    id: time
+    attributes:
+      label: 发布时间
+      description: 选填，留空即可＝自动用提交那一刻的时分。想指定就填 24 小时制，格式 23:05
+      placeholder: "23:05"
+  - type: input
+    id: excerpt
+    attributes:
+      label: 摘要
+      description: 选填。文章列表里显示的一句话简介
+  - type: textarea
+    id: content
+    attributes:
+      label: 正文
+      description: 直接打字，回车分段；可以随时粘贴图片（⌘+V / Ctrl+V）
+      placeholder: |
+        落笔即客……
+    validations:
+      required: true
 
-on:
-  issues:
-    types: [opened, edited, closed, reopened, labeled, unlabeled]
-
-permissions:
-  contents: write
-  issues: write
-
-# 同一篇文章的连续操作排队执行，避免快速连点导致推送互相冲突
-concurrency:
-  group: publish-post-${{ github.event.issue.number }}
-  cancel-in-progress: true
-
-jobs:
-  publish:
-    # 只处理「✍️ 发新文章」表单提交的 issue（以正文里的「### 正文」栏目为标记）
-    if: contains(github.event.issue.body, '### 正文')
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: 取回 issue 评论（找已发布文章的文件名）
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh api "repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments" > /tmp/comments.json
-
-      - name: 生成 / 更新 / 撤下文章
-        env:
-          ISSUE_TITLE: ${{ github.event.issue.title }}
-          ISSUE_BODY: ${{ github.event.issue.body }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-          ISSUE_ACTION: ${{ github.event.action }}
-          ISSUE_STATE: ${{ github.event.issue.state }}
-          ISSUE_LABEL: ${{ github.event.label.name }}
-          ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ',') }}
-          COMMENTS_FILE: /tmp/comments.json
-        run: |
-          POST_DATE="$(TZ=Asia/Shanghai date +%F)" \
-          POST_DATETIME="$(TZ=Asia/Shanghai date '+%F %T +0800')" \
-          python3 .github/scripts/issue_to_post.py | tee /tmp/env.out
-          cat /tmp/env.out >> "$GITHUB_ENV"
-
-      - name: 提交并推送
-        id: commit
-        if: env.POST_STATUS != 'none'
-        # 这一步失败也不要中断整个流程：下面「回复结果」会照常留言告诉用户
-        continue-on-error: true
-        env:
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-          ISSUE_TITLE: ${{ github.event.issue.title }}
-        run: |
-          git config user.name "juststories"
-          git config user.email "juststories@users.noreply.github.com"
-          mkdir -p _drafts
-          git add -A _posts _drafts
-          if git diff --cached --quiet; then
-            echo "内容没有变化，无需提交"
-          else
-            printf '发文 #%s：%s\n' "$ISSUE_NUMBER" "$ISSUE_TITLE" | git commit -F -
-            git push || (echo "推送冲突，自动同步后重试" && git pull --rebase --autostash && git push)
-          fi
-
-      - name: 在 issue 里回复结果
-        if: always() && env.POST_STATUS != 'none'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-        run: |
-          if [ "${{ steps.commit.outcome }}" = "failure" ]; then
-            printf '\n\n⚠️ 文章内容已生成，但「自动提交」这一步失败了，网站上暂时看不到。多半是权限或临时故障，把这条截图发我即可。\n' >> /tmp/comment.md
-          fi
-          gh issue comment "$ISSUE_NUMBER" --body-file /tmp/comment.md
