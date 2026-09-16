@@ -544,6 +544,32 @@ pre, code, kbd, samp {
   margin: 0;
 }
 
+/* ---------- 关于作者：顶部统一页头（与浏览页/留言板同宽、同位置） ----------
+   页头放在 #main 之外、独占一行，所以水平位置得自己对齐：
+   · 小屏：两侧留白用与主题 article.page 相同的 1.3rem；
+   · 宽屏（≥80em）：收成 840px 居中——正好等于浏览页页头所占的 840px 区域。
+   1.6rem 的顶部留白与 .browse-page 的 padding-top 完全一致，
+   因此页头落点与浏览页/留言板分毫不差。
+   注意：本站根字号是 22px（不是 16px），1.6rem = 35.2px。 */
+
+.about-head {
+  padding: 1.6rem 1.3rem 0;
+  box-sizing: border-box;
+}
+
+@media (min-width: 80em) {
+  .about-head {
+    max-width: 840px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* 页头与下方作者资料卡之间的呼吸 */
+.about-head + #main { margin-top: 0.2rem; }
+
 .facet__groups {
   margin: 1.6rem 0 0;
 }
