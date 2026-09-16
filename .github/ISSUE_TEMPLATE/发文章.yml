@@ -1,0 +1,49 @@
+name: ✍️ 发新文章
+description: 像写博客一样发文——填好表单，提交后自动发布到博客
+title: 文章标题写在这里
+labels: [发文章]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **顶部标题栏就是文章标题**。下面选分类、填标签，正文直接写字，点提交（Submit new issue）即发布。
+        正文里可以直接粘贴图片（⌘+V / Ctrl+V），不用管任何代码。
+  - type: dropdown
+    id: category
+    attributes:
+      label: 分类
+      description: 这篇文章属于哪个栏目
+      options:
+        - 日记
+        - 随笔
+        - 小说
+        - 信
+    validations:
+      required: true
+  - type: input
+    id: tags
+    attributes:
+      label: 标签
+      description: 选填。多个用逗号隔开，例如：生活, 读书
+      placeholder: "生活, 读书"
+  - type: input
+    id: date
+    attributes:
+      label: 发布日期
+      description: 选填，留空即可＝自动用提交那一刻的时间。补写过去的日记才填，格式 2026-09-16
+      placeholder: "2026-09-16"
+  - type: input
+    id: excerpt
+    attributes:
+      label: 摘要
+      description: 选填。文章列表里显示的一句话简介
+  - type: textarea
+    id: content
+    attributes:
+      label: 正文
+      description: 直接打字，回车分段；可以随时粘贴图片（⌘+V / Ctrl+V）
+      placeholder: |
+        落笔即客……
+    validations:
+      required: true
+
